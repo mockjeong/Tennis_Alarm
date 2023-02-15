@@ -1,8 +1,9 @@
 const express = require('express')
 const app = express()
-// var indexRouter = require('index.js');
+const port = 3000
+var indexRouter = require('./routes/index.js');
 
-// app.use('/', indexRouter);
+app.use('/', indexRouter);
 
 app.use(function(req,res,next){
   res.status(404).send('Sorry cant find that');
@@ -13,6 +14,11 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!')
 })
 
+app.listen(port, function() {
+  console.log(`Example app listening on portsn ${port}`)
+});
+
+
 // var fs = require('fs');
 // var bodyParser = require('body-parser');
 // var compression = require('compression');
@@ -21,7 +27,6 @@ app.use((err, req, res, next) => {
 
 // const express = require('express')
 // const app = express()
-const port = 3000
 // var topicRouter = require('./routes/topic.js');
 
 // var authRouter = require('./routes/auth.js');
@@ -70,6 +75,4 @@ const port = 3000
 //   res.status(500).send('Something broke!')
 // })
 
-app.listen(port, function() {
-  console.log(`Example app listening on port ${port}`)
-});
+
