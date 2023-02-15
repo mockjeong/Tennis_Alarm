@@ -1,8 +1,9 @@
 {
   "dependencies": {
+    "express": "^4.18.2",
     "gh-pages": "^5.0.0"
   },
-  "homepage" : "https://mockjeong.github.io/Tennis_Alarm/",
+  "homepage": "https://mockjeong.github.io/Tennis_Alarm/",
   "script": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
