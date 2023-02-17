@@ -1,13 +1,24 @@
+require('chromedriver');
 const {Builder, By, Key, until} = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
+//const webdriver = require('selenium-webdriver');
+//const { Options } = require('selenium-webdriver/chrome');
+
 
 async function sajickCheck(){
+ // const chromeService = new chrome.ServiceBuilder().build();
+ // chrome.setDefaultService(chromeService);
+
   //Browser Open (Chrome) (--Headlsess Optional not working)
   let driver = await new Builder()
-  .forBrowser('chrome')
-  .setChromeOptions(new chrome.Options().addArguments("--window-size=800,600"))
-  // .setChromeOptions(new chrome.Options().headless().addArguments("--window-size=800,600"))
-  .build();
+    .forBrowser('chrome')
+    .setChromeOptions(new chrome.Options().addArguments("--window-size=800,600"))
+    // .setChromeOptions(new chrome.Options().addArguments(
+    //   "--headless",
+    //   "--disable-gpu",
+    //   "--no-sandbox",
+    //   "--window-size=800,600"))
+    .build();
   
   try {
     //Set Implicit Wait time for 5 seconds.
