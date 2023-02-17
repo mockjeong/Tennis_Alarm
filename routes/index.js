@@ -12,6 +12,7 @@ router.get('/', function(request, response){
     <body>
       <h1><a href="/">AKZD Tennis Alarm Service</a></h1>
     </body>
+    <div><a href ="/pythontest">Test</a></h1>
     </html>
   `
   response.send(html);
