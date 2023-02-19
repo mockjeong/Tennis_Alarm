@@ -1,30 +1,13 @@
 const express = require('express');
 const app = express();
-const {sajick, sajickCheck} = require('./reserves/selenium.js');
 
 const port = 3000
 var indexRouter = require('./routes/index.js');
+const tennisRouter = require('./routes/tennischeck.js');
 
 app.use('/', indexRouter);
 
-app.get('/pythontest', async (req, res) =>{
-  const Courtlist = await sajickCheck();
-  var html = 
-  ` <!doctype html>
-    <html>
-    <head>
-      <title>AKZD</title>
-      <meta charset="utf-8">
-    </head>
-    <body>
-      <h1><a href="/">AKZD Tennis Alarm Service</a></h1>
-    </body>
-    <div><a href ="/pythontest">Test</a></h1>
-    <div>${Courtlist}</div>
-    </html>
-  `
-  res.send(html);
-})
+app.use('/tennischeck',tennisRouter);
 
 //Message for 404 
 app.use(function(req,res,next){
