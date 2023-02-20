@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+  <head>
+    <title>AKZD</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <style>
+  /* Hide the loader initially */
+  .loader-wrapper {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+    </style>
+  </head>
+  <body>
+    <h1><a href="/">AKZD Tennis Court Check Service</a></h1>
+    <div>
+      <form action="/tennis" method="post">
+        <label for="month">Month:</label>
+        <input type="month" id="month" name="month" value="2023-02">
+        <label for="day">Day:</label>
+        <input type="text" id="day" name="day" pattern="[0-9]{1,2}" placeholder="DD" value="22">
+        <input type="submit" value="조회 시작">
+      </form>
+      <div style="color:red;">{{error}}</div>
+    </div>
+    <div class="loader-wrapper">
+      <div class="loader"></div>
+    </div>
+    <div class="row">
+      <div class="col col1">
+        <div class="content">
+          <h2>사직 테니스장</h2>
+          <ul>
+            {{#each result1}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+      <div class="col col2">
+        <div class="content">
+          <h2>테니스장 2</h2>
+          <p>This is the content for column 2.</p>
+        </div>
+      </div>
+      <div class="col col3">
+        <div class="content">
+          <h2>테니스장 3</h2>
+          <p>This is the content for column 3.</p>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Show the loader when the form is submitted
+      document.querySelector('form').addEventListener('submit', function() {
+        document.querySelector('.loader-wrapper').style.display = 'block';
+      });
+    </script>
+  </body>
+</html>

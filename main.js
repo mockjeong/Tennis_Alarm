@@ -1,13 +1,32 @@
 const express = require('express');
 const app = express();
-
+var bodyParser = require('body-parser');
 const port = 3000
 var indexRouter = require('./routes/index.js');
-const tennisRouter = require('./routes/tennischeck.js');
+const tennisRouter = require('./routes/tennis.js');
+const flash = require('connect-flash');
+var session = require('express-session');
+var path = require('path')
 
+// Body-parser
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.use(session({
+  secret: 'mouse',
+  resave: false,
+  saveUninitialized: true,
+  // store: new FileStore()
+}))
+
+// Flash Middleware
+app.use(flash());
+
+// Router
 app.use('/', indexRouter);
+app.use('/tennis',tennisRouter);
 
-app.use('/tennischeck',tennisRouter);
+app.use(express.static(path.join(__dirname, 'public')));
 
 //Message for 404 
 app.use(function(req,res,next){
