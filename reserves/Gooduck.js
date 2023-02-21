@@ -22,7 +22,7 @@ async function GooduckCheck(targetMonth, targetDay){
     //Go to Reservation Site (Sajick)
     await driver.get('https://www.busan.go.kr/member/login');
 
-    //Login Information for Test
+    //Login Information
     // Notice : If keyboard secure utility is installed, sendkeys for id is impossible.
     // Uninstall the Keyboard secure utility
     const userId = 'jeongmock';
@@ -30,7 +30,7 @@ async function GooduckCheck(targetMonth, targetDay){
     await driver.findElement(By.id('mberId')).sendKeys(userId);
     await driver.findElement(By.id('mberPwd')).sendKeys(userPwd);
 
-    var loginxpath = '/html/body/div[2]/div[2]/div/div/div[1]/div[1]/form/div/button'
+    const loginxpath = '/html/body/div[2]/div[2]/div/div/div[1]/div[1]/form/div/button'
     let loginElement = await driver.wait(until.elementLocated(By.xpath(loginxpath)), 10000);
     await driver.wait(until.elementIsEnabled(loginElement), 10000);
     await driver.findElement(By.xpath(loginxpath)).click();
@@ -39,9 +39,43 @@ async function GooduckCheck(targetMonth, targetDay){
     await driver.get('https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=289');
 
     var curMonthElement = await driver.findElement(By.css('.currentMonth em:last-child'));
-    var curMonthText = await curMonthElement.getText();
+    var curMonth = parseInt(await curMonthElement.getText());
 
-    console.log(curMonthText)
+    // Search for Target Month
+    while(curMonth != targetMonth){
+      try {
+        if(targetMonth > curMonth){
+          await driver.wait(until.elementsLocated(By.className('btnMonth next')),5000);
+          await driver.findElement(By.className('btnMonth next')).click();
+          curMonthElement = await driver.findElement(By.css('.currentMonth em:last-child'));
+          curMonth = parseInt(await curMonthElement.getText());
+        } else {
+          await driver.wait(until.elementsLocated(By.className('btnMonth prev')),5000);
+          await driver.findElement(By.className('btnMonth prev')).click();
+          curMonthElement = await driver.findElement(By.css('.currentMonth em:last-child'));
+          curMonth = parseInt(await curMonthElement.getText());
+        }
+      } catch (error) {
+        if (error instanceof StaleElementReferenceError) {
+          console.log('Element is stale, re-locating...');
+          curMonthElement = await driver.findElement(By.css('.currentMonth em:last-child'));
+          curMonth = parseInt(await curMonthElement.getText());
+        } else {
+          throw error;
+        }
+      }
+    }
+
+    var dateSelectXpath = `//a[contains(text(), '${targetDay}')]`
+    let dateSelectElement = await driver.wait(until.elementLocated(By.xpath(dateSelectXpath)), 8000);
+    await driver.wait(until.elementIsEnabled(dateSelectElement), 10000);
+    const element = await driver.findElement(By.xpath(dateSelectXpath));
+    await element.click();
+    // const DayElement = await driver.findElement(By.css('.selectDay a'));
+    const DayElement = await driver.findElement(By.css('.selectDay a'));
+    const DayText = await DayElement.getText();
+
+    await console.log('Day:',DayText);
   
     // await driver.wait(until.elementsLocated(By.xpath('//th[text()="구분"]'),20000));
 
@@ -84,6 +118,6 @@ async function GooduckCheck(targetMonth, targetDay){
   }
 }
 
-GooduckCheck(02,24);
+GooduckCheck(3,3);
 
 module.exports = {GooduckCheck};
