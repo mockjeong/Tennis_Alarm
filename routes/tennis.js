@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {sajick, sajickCheck} = require('../reserves/sajick_selenium.js');
+const {sajickCheck} = require('../reserves/sajick.js');
 var fs = require('fs');
 const handlebars = require('handlebars');
 
@@ -22,10 +22,15 @@ router.use('/', async (req, res) =>{
       var post = req.body;
       var targetMonth = parseInt(post.month.split('-')[1]);
       var targetDay = post.day;
-      const Courtlist = await sajickCheck(targetMonth,targetDay);
+
+       // Create an array of promises for both sajickCheck function calls
+      const promises = [sajickCheck(targetMonth, targetDay), sajickCheck(targetMonth, targetDay)];
+
+      // Wait for both promises to resolve
+      const [Courtlist, Courtlist2] = await Promise.all(promises);
 
       var template = handlebars.compile(fs.readFileSync('./views/index.handlebars', 'utf8'));
-      var html = template({ error: '', result1: Courtlist });
+      var html = template({ error: '', result1: Courtlist, result2: Courtlist2 });
       res.send(html);
   }
 })

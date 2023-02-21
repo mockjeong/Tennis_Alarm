@@ -10,7 +10,7 @@ router.get('/', function(req, res){
     error = fmsg.error;
   }
   var template = handlebars.compile(fs.readFileSync('./views/index.handlebars', 'utf8'));
-  var html = template({ error: error, result1: '결과 없음' });
+  var html = template({ error: error, result1: '결과 없음', result2: '결과 없음' });
   res.send(html);
 });
 
