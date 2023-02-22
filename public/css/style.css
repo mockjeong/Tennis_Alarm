@@ -1,3 +1,7 @@
+a:link { color: #01DF74; text-decoration: none;}
+a:visited { color: #01DF74; text-decoration: none;}
+a:hover { color: #01DF74; text-decoration: none;}
+
 /* Set the width of each column */
 .col {
   width: 33.33%;
