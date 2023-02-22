@@ -1,14 +1,14 @@
 require('chromedriver');
-const {Builder, By, Key, until} = require('selenium-webdriver');
+const {Builder, By, Key, until, StaleElementReferenceError } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 
-async function GooduckCheck(targetMonth, targetDay){
+async function GooduckCheck(targetMonth, targetDay, url){
 
   //Browser Open (Chrome) (--Headlsess Optional not working)
   let driver = await new Builder()
     .forBrowser('chrome')
     .setChromeOptions(new chrome.Options().addArguments(
-      // "--headless",
+      "--headless",
       "--disable-gpu",
       "--no-sandbox",
       "--window-size=1920,1080",
@@ -36,27 +36,45 @@ async function GooduckCheck(targetMonth, targetDay){
     await driver.findElement(By.xpath(loginxpath)).click();
 
     // //Go to Reservation Site
-    await driver.get('https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=289');
+    await driver.get(url);
 
+    await driver.wait(until.elementsLocated(By.css('.currentMonth')),5000);
     var curMonthElement = await driver.findElement(By.css('.currentMonth em:last-child'));
     var curMonth = parseInt(await curMonthElement.getText());
 
     // Search for Target Month
     while(curMonth != targetMonth){
+      console.log('curMonth :', curMonth, 'targetMonth :', targetMonth);
       try {
         if(targetMonth > curMonth){
           await driver.wait(until.elementsLocated(By.className('btnMonth next')),5000);
+          await driver.wait(until.elementIsEnabled(driver.findElement(By.className('btnMonth next'))), 5000);
           await driver.findElement(By.className('btnMonth next')).click();
-          curMonthElement = await driver.findElement(By.css('.currentMonth em:last-child'));
-          curMonth = parseInt(await curMonthElement.getText());
+          console.log('next button clicked');
+          
+          //When get month data using getText() takes some time to implement
+          curMonth += 1;
+
+          // await driver.wait(until.elementsLocated(By.css('.currentMonth')),5000);
+          // await driver.wait(new Promise(resolve => setTimeout(resolve, 500)));
+          // curMonthElement = await driver.findElement(By.css('.currentMonth em:last-child'));
+          // curMonth = parseInt(await curMonthElement.getText());
         } else {
           await driver.wait(until.elementsLocated(By.className('btnMonth prev')),5000);
+          await driver.wait(until.elementIsEnabled(driver.findElement(By.className('btnMonth prev'))), 5000);
           await driver.findElement(By.className('btnMonth prev')).click();
-          curMonthElement = await driver.findElement(By.css('.currentMonth em:last-child'));
-          curMonth = parseInt(await curMonthElement.getText());
+          console.log('prev button clicked');
+
+          //When get month data using getText() takes some time to implement
+          curMonth -= 1;
+
+          // await driver.wait(until.elementsLocated(By.css('.currentMonth')),5000);
+          // await driver.wait(new Promise(resolve => setTimeout(resolve, 500)));
+          // curMonthElement = await driver.findElement(By.css('.currentMonth em:last-child'));
+          // curMonth = parseInt(await curMonthElement.getText());
         }
       } catch (error) {
-        if (error instanceof StaleElementReferenceError) {
+        if (error && error instanceof StaleElementReferenceError) {
           console.log('Element is stale, re-locating...');
           curMonthElement = await driver.findElement(By.css('.currentMonth em:last-child'));
           curMonth = parseInt(await curMonthElement.getText());
@@ -66,16 +84,28 @@ async function GooduckCheck(targetMonth, targetDay){
       }
     }
 
+    //Click the target date
+    await driver.wait(new Promise(resolve => setTimeout(resolve, 500)));
     var dateSelectXpath = `//a[contains(text(), '${targetDay}')]`
-    let dateSelectElement = await driver.wait(until.elementLocated(By.xpath(dateSelectXpath)), 8000);
-    await driver.wait(until.elementIsEnabled(dateSelectElement), 10000);
-    const element = await driver.findElement(By.xpath(dateSelectXpath));
-    await element.click();
-    // const DayElement = await driver.findElement(By.css('.selectDay a'));
-    const DayElement = await driver.findElement(By.css('.selectDay a'));
-    const DayText = await DayElement.getText();
+    await driver.wait(until.elementLocated(By.xpath(dateSelectXpath)), 5000);
+    await driver.wait(until.elementIsEnabled(driver.findElement(By.xpath(dateSelectXpath))), 5000);
+    await driver.findElement(By.xpath(dateSelectXpath)).click();
 
-    await console.log('Day:',DayText);
+    await driver.wait(new Promise(resolve => setTimeout(resolve, 500)));
+    const reserveApplyElements = await driver.findElements(By.xpath('//*[@id="beginTime"]/option'));
+
+    var Courtlist = [];
+    
+    for (const reserveApplyElement of reserveApplyElements) {
+      var startTimeText = await reserveApplyElement.getText();
+      if(startTimeText=='선택' || startTimeText.substring(startTimeText.length - 4)=='[마감]'){
+
+      }
+      else{
+        Courtlist.push(`${startTimeText.substring(0, 2)}시`);
+      }
+    }
+    return Courtlist;
   
     // await driver.wait(until.elementsLocated(By.xpath('//th[text()="구분"]'),20000));
 
@@ -95,7 +125,7 @@ async function GooduckCheck(targetMonth, targetDay){
     // const calendarBody = await driver.findElement(By.css('div.calendar-body.pc'));
     // const reserveApplyElements = await calendarBody.findElements(By.className('chk_court'));
 
-    var Courtlist = [];
+
     // console.log(`${targetMonth}월 ${targetDay}일의 예약 가능 시간/코트`)
     // Loop through the elements and extract the values of the checkboxes
     // for (const reserveApplyElement of reserveApplyElements) {
@@ -111,13 +141,10 @@ async function GooduckCheck(targetMonth, targetDay){
     // }
     // return Courtlist;
 
-    while(1);
   }
   finally {
     await driver.quit();
   }
 }
-
-GooduckCheck(3,3);
 
 module.exports = {GooduckCheck};

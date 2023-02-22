@@ -83,7 +83,8 @@ async function sajickCheck(targetMonth, targetDay){
       // const checkboxElement = await reserveApplyElement.findElement(By.className('chk_court'));
       const checkboxValue = await reserveApplyElement.getAttribute('value');
       const parts = checkboxValue.split('|');
-      const courtNum = parts[0].substr(3);
+      var courtNum = parts[0].substr(3);
+      if (courtNum == '0') courtNum = '10';
       const startTime = parseInt(parts[1].substr(2))+5;
 
       // console.log(`${startTime}시 ${courtNum}번`);

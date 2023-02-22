@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const {sajickCheck} = require('../reserves/sajick.js');
+const {GooduckCheck} = require('../reserves/Gooduck.js');
 var fs = require('fs');
 const handlebars = require('handlebars');
 
@@ -22,15 +23,25 @@ router.use('/', async (req, res) =>{
       var post = req.body;
       var targetMonth = parseInt(post.month.split('-')[1]);
       var targetDay = post.day;
+      var gooduck_url1 = 'https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=289#';
+      var gooduck_url2 = 'https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=290#';
+      var gooduck_url3 = 'https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=291#';
 
        // Create an array of promises for both sajickCheck function calls
-      const promises = [sajickCheck(targetMonth, targetDay), sajickCheck(targetMonth, targetDay)];
+      const promises = [sajickCheck(targetMonth, targetDay), 
+                        GooduckCheck(targetMonth, targetDay, gooduck_url1),
+                        GooduckCheck(targetMonth, targetDay, gooduck_url2),
+                        GooduckCheck(targetMonth, targetDay, gooduck_url3)];
 
       // Wait for both promises to resolve
-      const [Courtlist, Courtlist2] = await Promise.all(promises);
+      const [sajickList, gooduckList1, gooduckList2, gooduckList3] = await Promise.all(promises);
 
       var template = handlebars.compile(fs.readFileSync('./views/index.handlebars', 'utf8'));
-      var html = template({ error: '', result1: Courtlist, result2: Courtlist2 });
+      var html = template({ error: '', 
+                            sajickResult: sajickList, 
+                            gooduckResult1: gooduckList1, 
+                            gooduckResult2: gooduckList2, 
+                            gooduckResult3: gooduckList3});
       res.send(html);
   }
 })
