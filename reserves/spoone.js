@@ -3,7 +3,7 @@ const { constants } = require('fs/promises');
 const {Builder, By, Key, until, StaleElementReferenceError } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 
-async function spoCheck(targetMonth, targetDay, url){
+async function spoCheck(targetMonth, targetDay){
 
   //Browser Open (Chrome) (--Headlsess Optional not working)
   let driver = await new Builder()
@@ -64,8 +64,10 @@ async function spoCheck(targetMonth, targetDay, url){
   
     console.log('month :', targetMonthStr, 'day :', targetDayStr);
 
-    const courtUrl = { 21: '실내1번', 22: '실내2번', 23: '실내3번',24: '실내4번',25: '실내5번',26: '실내6번'}
+    const courtUrl = { 21: '실내1', 22: '실내2', 23: '실내3',24: '실내4',25: '실내5',26: '실내6'}
     const indices = [21, 22, 23, 24, 25, 26];
+
+    var Courtlist = [];
 
     for (let i = 0; i < indices.length; i++) {
       const index = indices[i];
@@ -73,7 +75,7 @@ async function spoCheck(targetMonth, targetDay, url){
       await driver.get(`https://nrsv.spo1.or.kr/rent/reservation/index/2023/${targetMonthStr}/${targetDayStr}/1/SPOONE/11/${index}`);
 
       await driver.wait(new Promise(resolve => setTimeout(resolve, 500)));
-      console.log(courtUrl[index]);
+      // console.log(courtUrl[index]);
       let checkBoxes = await driver.findElements(By.css('input[type="checkbox"].select_check'));
       for (let i = 0; i < checkBoxes.length; i++) {
         let tr = await checkBoxes[i].findElement(By.xpath('ancestor::tr'));
@@ -81,6 +83,7 @@ async function spoCheck(targetMonth, targetDay, url){
         let timeRange = await tds[2].getText();
         let time = timeRange.split(' ')[0].substring(0,2);
         console.log(time); // "06"
+        Courtlist.push(`${time}시 ${courtUrl[index]}번`);
       }
     }
 
