@@ -8,7 +8,7 @@ async function sajickCheck(targetMonth, targetDay){
   let driver = await new Builder()
     .forBrowser('chrome')
     .setChromeOptions(new chrome.Options().addArguments(
- //     "--headless",
+      "--headless",
       "--disable-gpu",
       "--no-sandbox",
       "--window-size=800,600",
