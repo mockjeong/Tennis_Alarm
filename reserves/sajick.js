@@ -8,7 +8,7 @@ async function sajickCheck(targetMonth, targetDay){
   let driver = await new Builder()
     .forBrowser('chrome')
     .setChromeOptions(new chrome.Options().addArguments(
-      "--headless",
+ //     "--headless",
       "--disable-gpu",
       "--no-sandbox",
       "--window-size=800,600",
@@ -45,7 +45,11 @@ async function sajickCheck(targetMonth, targetDay){
 
     await console.log('Table Ready');
 
-    var dateSelectXpath = `//label[contains(text(),'0${targetMonth}월 ${targetDay}일')]`
+    //TargetMonth, Day to string with 0 (use padStart)
+    let targetMonthStr = targetMonth.toString().padStart(2, '0');
+    let targetDayStr = targetDay.toString().padStart(2, '0');
+
+    var dateSelectXpath = `//label[contains(text(),'${targetMonthStr}월 ${targetDayStr}일')]`
     let dateSelectElement = await driver.wait(until.elementLocated(By.xpath(dateSelectXpath)), 8000);
     await driver.wait(until.elementIsEnabled(dateSelectElement), 10000);
     const element = await driver.findElement(By.xpath(dateSelectXpath));
@@ -87,7 +91,7 @@ async function sajickCheck(targetMonth, targetDay){
       if (courtNum == '0') courtNum = '10';
       const startTime = parseInt(parts[1].substr(2))+5;
 
-      // console.log(`${startTime}시 ${courtNum}번`);
+      console.log(`${startTime}시 ${courtNum}번`);
       Courtlist.push(`${startTime}시 ${courtNum}번`);
 
     }
@@ -97,5 +101,7 @@ async function sajickCheck(targetMonth, targetDay){
     await driver.quit();
   }
 }
+
+// sajickCheck(3,3);
 
 module.exports = {sajickCheck};
