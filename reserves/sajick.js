@@ -43,7 +43,7 @@ async function sajickCheck(targetMonth, targetDay){
 
     await driver.wait(until.elementsLocated(By.xpath('//th[text()="구분"]'),20000));
 
-    await console.log('Table Ready');
+    await console.log('사직 Table Ready');
 
     //TargetMonth, Day to string with 0 (use padStart)
     let targetMonthStr = targetMonth.toString().padStart(2, '0');
@@ -56,9 +56,9 @@ async function sajickCheck(targetMonth, targetDay){
     await element.click();
 
     // Wait for 5 seconds
-    await driver.wait(new Promise(resolve => setTimeout(resolve, 5000)));
+    await driver.wait(new Promise(resolve => setTimeout(resolve, 3000)));
 
-    await console.log('Date Selected');
+    await console.log('사직 Date Selected');
 
     const calendarBody = await driver.findElement(By.css('div.calendar-body.pc'));
     const reserveApplyElements = await calendarBody.findElements(By.className('chk_court'));
@@ -91,10 +91,11 @@ async function sajickCheck(targetMonth, targetDay){
       if (courtNum == '0') courtNum = '10';
       const startTime = parseInt(parts[1].substr(2))+5;
 
-      console.log(`${startTime}시 ${courtNum}번`);
+      console.log(`사직 ${startTime}시 ${courtNum}번`);
       Courtlist.push(`${startTime}시 ${courtNum}번`);
 
     }
+    console.log(`사직 조회 종료`);
     return Courtlist;
   }
   finally {

@@ -38,6 +38,10 @@ async function GooduckCheck(targetMonth, targetDay, url){
     // //Go to Reservation Site
     await driver.get(url);
 
+    //Wait until Current Month is Completely loaded
+    await driver.wait(until.elementsLocated(By.css('.selectDay')),5000);
+    // console.log('구덕 Wait Complete');
+
     await driver.wait(until.elementsLocated(By.css('.currentMonth')),5000);
     var curMonthElement = await driver.findElement(By.css('.currentMonth em:last-child'));
     var curMonth = parseInt(await curMonthElement.getText());
@@ -50,7 +54,7 @@ async function GooduckCheck(targetMonth, targetDay, url){
           await driver.wait(until.elementsLocated(By.className('btnMonth next')),5000);
           await driver.wait(until.elementIsEnabled(driver.findElement(By.className('btnMonth next'))), 5000);
           await driver.findElement(By.className('btnMonth next')).click();
-          console.log('next button clicked');
+          // console.log('구덕 next button clicked');
           
           //When get month data using getText() takes some time to implement
           curMonth += 1;
@@ -63,7 +67,7 @@ async function GooduckCheck(targetMonth, targetDay, url){
           await driver.wait(until.elementsLocated(By.className('btnMonth prev')),5000);
           await driver.wait(until.elementIsEnabled(driver.findElement(By.className('btnMonth prev'))), 5000);
           await driver.findElement(By.className('btnMonth prev')).click();
-          console.log('prev button clicked');
+          // console.log('구덕 prev button clicked');
 
           //When get month data using getText() takes some time to implement
           curMonth -= 1;
@@ -75,7 +79,7 @@ async function GooduckCheck(targetMonth, targetDay, url){
         }
       } catch (error) {
         if (error && error instanceof StaleElementReferenceError) {
-          console.log('Element is stale, re-locating...');
+          // console.log('구덕 Element is stale, re-locating...');
           curMonthElement = await driver.findElement(By.css('.currentMonth em:last-child'));
           curMonth = parseInt(await curMonthElement.getText());
         } else {
@@ -102,14 +106,18 @@ async function GooduckCheck(targetMonth, targetDay, url){
 
       }
       else{
+        console.log(`구덕 ${startTimeText.substring(0, 2)}시`);
         Courtlist.push(`${startTimeText.substring(0, 2)}시`);
       }
     }
+    console.log(`구덕 조회 종료`);
     return Courtlist;
   }
   finally {
     await driver.quit();
   }
 }
+
+// GooduckCheck(3,3,'https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=290#');
 
 module.exports = {GooduckCheck};

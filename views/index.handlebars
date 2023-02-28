@@ -40,9 +40,9 @@
     <div>
       <form action="/tennis" method="post">
         <label for="month">Month:</label>
-        <input type="month" id="month" name="month" value="2023-02">
+        <input type="month" id="month" name="month" value="2023-03">
         <label for="day">Day:</label>
-        <input type="text" id="day" name="day" pattern="[0-9]{1,2}" placeholder="DD" value="27">
+        <input type="text" id="day" name="day" pattern="[0-9]{1,2}" placeholder="DD" value="3">
         <input type="submit" value="조회 시작">
       </form>
       <div style="color:red;">{{error}}</div>
@@ -63,30 +63,56 @@
       </div>
       <div class="col col2">
         <div class="content">
-          <h2>구덕 테니스장 (1번 코트)</h2>
-          <ul>
-            {{#each gooduckResult1}}
-              <li>{{this}}</li>
-            {{/each}}
-          </ul>
-          <h2>구덕 테니스장 (2번 코트)</h2>
-          <ul>
-            {{#each gooduckResult2}}
-              <li>{{this}}</li>
-            {{/each}}
-          </ul>
-          <h2>구덕 테니스장 (3번 코트)</h2>
-          <ul>
-            {{#each gooduckResult3}}
-              <li>{{this}}</li>
-            {{/each}}
-          </ul>
+          <h2>구덕 테니스장</h2>
+          <div class = "row">
+            <div class="col2_1">
+              <h3>1번 코트</h3>
+                <ul>
+                  {{#each gooduckResult1}}
+                    <li>{{this}}</li>
+                  {{/each}}
+                </ul>
+            </div>
+            <div class="col2_1">
+             <h3>2번 코트</h3>
+                <ul>
+                  {{#each gooduckResult2}}
+                    <li>{{this}}</li>
+                  {{/each}}
+                </ul>
+            </div>
+            <div class="col2_1">
+             <h3>3번 코트</h3>
+                <ul>
+                  {{#each gooduckResult3}}
+                    <li>{{this}}</li>
+                  {{/each}}
+                </ul>
+            </div>
+          </div>             
         </div>
       </div>
       <div class="col col3">
         <div class="content">
-          <h2>테니스장 3</h2>
-          <p>This is the content for column 3.</p>
+          <h2>스포원테니스장</h2>
+          <div class ="row">
+            <div class="col3_1">
+              <h3>실내</h3>
+              <ul>
+              {{#each sponeResult1}}
+                <li>{{this}}</li>
+              {{/each}}
+              </ul>
+            </div>
+            <div class="col3_1">
+              <h3>실외</h3>
+              <ul>
+              {{#each sponeResult2}}
+                <li>{{this}}</li>
+              {{/each}}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
