@@ -4,35 +4,41 @@
     <title>AKZD</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
     <style>
-  /* Hide the loader initially */
-  .loader-wrapper {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.7);
-  }
+      /* Hide the loader initially */
+      .loader-wrapper {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.7);
+      }
 
-  .loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    border: 16px solid #f3f3f3;
-    border-top: 16px solid #3498db;
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    animation: spin 2s linear infinite;
-  }
+      .loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border: 16px solid #f3f3f3;
+        border-top: 16px solid #3498db;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+      }
 
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
     </style>
   </head>
   <body>
@@ -45,6 +51,18 @@
         <input type="text" id="day" name="day" pattern="[0-9]{1,2}" placeholder="DD" value="3">
         <input type="submit" value="조회 시작">
       </form>
+      <input type="text" id="datepicker">
+      <script src="pikaday.js"></script>
+        <script>
+          const picker = new Pikaday({
+            field: document.getElementById('datepicker'),
+            format: 'YYYY-MM-DD',
+            onSelect: function(date) {
+              const formattedDate = moment(date).format('YYYY년 MM월 DD일');
+              input.value = formattedDate;
+            }
+          });
+        </script>
       <div style="color:red;">{{error}}</div>
     </div>
     <div class="loader-wrapper">
@@ -121,6 +139,7 @@
       document.querySelector('form').addEventListener('submit', function() {
         document.querySelector('.loader-wrapper').style.display = 'block';
       });
+
     </script>
   </body>
 </html>
