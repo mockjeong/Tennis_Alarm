@@ -59,6 +59,7 @@
             format: 'YYYY-MM-DD',
             onSelect: function(date) {
               const formattedDate = moment(date).format('YYYY년 MM월 DD일');
+              const input = document.getElementById('datepicker');
               input.value = formattedDate;
             }
           });
