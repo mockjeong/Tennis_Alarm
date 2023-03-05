@@ -37,11 +37,11 @@ router.use('/', async (req, res) =>{
       //                   spoCheckOut(targetMonth, targetDay)];
 
       const promises = [sajickCheck(targetMonth, targetDay),
+        GooduckCheck(targetMonth, targetDay, gooduck_url1),
         0,
         0,
-        0,
-        0,
-        0];
+        spoCheckIn(targetMonth, targetDay),
+        spoCheckOut(targetMonth, targetDay)];
 
       // // Wait for both promises to resolve
       // const [sajickList, gooduckList1, gooduckList2, gooduckList3] = await Promise.all(promises);

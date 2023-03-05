@@ -17,8 +17,8 @@ async function spoCheckIn(targetMonth, targetDay){
     .build();
   
   try {
-    //Set Implicit Wait time for 5 seconds.
-    await driver.manage().setTimeouts( { implicit: 5000 } );
+    //Set Implicit Wait time for 1 seconds.
+    await driver.manage().setTimeouts( { implicit: 1000 } );
     
     //TargetMonth, Day to string with 0 (use padStart)
     let targetMonthStr = targetMonth.toString().padStart(2, '0');
@@ -37,16 +37,26 @@ async function spoCheckIn(targetMonth, targetDay){
       // Go to Reservation Site
       await driver.get(`https://nrsv.spo1.or.kr/rent/reservation/index/2023/${targetMonthStr}/${targetDayStr}/1/SPOONE/11/${index}`);
 
-      await driver.wait(new Promise(resolve => setTimeout(resolve, 500)));
-      // console.log(courtUrl[index]);
-      let checkBoxes = await driver.findElements(By.css('input[type="checkbox"].select_check'));
-      for (let i = 0; i < checkBoxes.length; i++) {
-        let tr = await checkBoxes[i].findElement(By.xpath('ancestor::tr'));
-        let tds = await tr.findElements(By.tagName('td'));
-        let timeRange = await tds[2].getText();
-        let time = timeRange.split(' ')[0].substring(0,2);
-        console.log(`스포원 실내 ${time}시 ${courtUrl[index]}번`); // "06"
-        Courtlist.push(`${time}시 ${courtUrl[index]}번`);
+      // Wait for the page to finish loading (Maximum 10 seconds)
+      await driver.wait(until.urlContains(`https://nrsv.spo1.or.kr/rent/reservation/index/2023/${targetMonthStr}/${targetDayStr}/1/SPOONE/11/${index}`),10000);
+
+      //Check there is available court
+      try {
+        let checkBoxes = await driver.findElements(By.css('input[type="checkbox"].select_check'));
+        if (checkBoxes.length === 0) {
+          console.log(`${courtUrl[index]}번 예약 불가`);
+        } else {
+          for (let i = 0; i < checkBoxes.length; i++) {
+            let tr = await checkBoxes[i].findElement(By.xpath('ancestor::tr'));
+            let tds = await tr.findElements(By.tagName('td'));
+            let timeRange = await tds[2].getText();
+            let time = timeRange.split(' ')[0].substring(0,2);
+            console.log(`스포원 실내 ${time}시 ${courtUrl[index]}번`);
+            Courtlist.push(`${time}시 ${courtUrl[index]}번`);
+          }
+        }
+      } catch (e) {
+        console.error('Error waiting for elements:', e);
       }
     }
 
@@ -91,8 +101,8 @@ async function spoCheckOut(targetMonth, targetDay){
     .build();
   
   try {
-    //Set Implicit Wait time for 5 seconds.
-    await driver.manage().setTimeouts( { implicit: 5000 } );
+    //Set Implicit Wait time for 1 seconds.
+    await driver.manage().setTimeouts( { implicit: 1000 } );
     
     //TargetMonth, Day to string with 0 (use padStart)
     let targetMonthStr = targetMonth.toString().padStart(2, '0');
@@ -111,17 +121,36 @@ async function spoCheckOut(targetMonth, targetDay){
       // Go to Reservation Site
       await driver.get(`https://nrsv.spo1.or.kr/rent/reservation/index/2023/${targetMonthStr}/${targetDayStr}/1/SPOONE/15/${index}`);
 
-      await driver.wait(new Promise(resolve => setTimeout(resolve, 500)));
-      // console.log(courtUrl[index]);
-      let checkBoxes = await driver.findElements(By.css('input[type="checkbox"].select_check'));
-      for (let i = 0; i < checkBoxes.length; i++) {
-        let tr = await checkBoxes[i].findElement(By.xpath('ancestor::tr'));
-        let tds = await tr.findElements(By.tagName('td'));
-        let timeRange = await tds[2].getText();
-        let time = timeRange.split(' ')[0].substring(0,2);
-        console.log(`스포원 실외 ${time}시 ${courtUrl[index]}번`); // "06"
-        Courtlist.push(`${time}시 ${courtUrl[index]}번`);
+      // Wait for the page to finish loading (Maximum 10 seconds)
+      await driver.wait(until.urlContains(`https://nrsv.spo1.or.kr/rent/reservation/index/2023/${targetMonthStr}/${targetDayStr}/1/SPOONE/15/${index}`),10000);
+
+      //Check there is available court
+      try {
+        let checkBoxes = await driver.findElements(By.css('input[type="checkbox"].select_check'));
+        if (checkBoxes.length === 0) {
+          console.log(`${courtUrl[index]}번 예약 불가`);
+        } else{
+          for (let i = 0; i < checkBoxes.length; i++) {
+            let tr = await checkBoxes[i].findElement(By.xpath('ancestor::tr'));
+            let tds = await tr.findElements(By.tagName('td'));
+            let timeRange = await tds[2].getText();
+            let time = timeRange.split(' ')[0].substring(0,2);
+            console.log(`스포원 실외 ${time}시 ${courtUrl[index]}번`); // "06"
+            Courtlist.push(`${time}시 ${courtUrl[index]}번`);
+          }
+        }
+      } catch (e) {
+        console.error('Error waiting for elements:', e);
       }
+      // let checkBoxes = await driver.findElements(By.css('input[type="checkbox"].select_check'));
+      // for (let i = 0; i < checkBoxes.length; i++) {
+      //   let tr = await checkBoxes[i].findElement(By.xpath('ancestor::tr'));
+      //   let tds = await tr.findElements(By.tagName('td'));
+      //   let timeRange = await tds[2].getText();
+      //   let time = timeRange.split(' ')[0].substring(0,2);
+      //   console.log(`스포원 실외 ${time}시 ${courtUrl[index]}번`); // "06"
+      //   Courtlist.push(`${time}시 ${courtUrl[index]}번`);
+      // }
     }
 
     console.log(`스포원 실외 조회 종료`);
@@ -153,6 +182,7 @@ async function spoCheckOut(targetMonth, targetDay){
     await driver.quit();
   }
 }
-// spoCheckOut(3,3);
+//  spoCheckIn(3,6);
+//  spoCheckOut(3,6);
 
 module.exports = {spoCheckIn, spoCheckOut};
