@@ -29,12 +29,19 @@ router.use('/', async (req, res) =>{
       var gooduck_url3 = 'https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=291#';
 
        // Create an array of promises for both sajickCheck function calls
+      // const promises = [sajickCheck(targetMonth, targetDay),
+      //                   GooduckCheck(targetMonth, targetDay, gooduck_url1),
+      //                   GooduckCheck(targetMonth, targetDay, gooduck_url2),
+      //                   GooduckCheck(targetMonth, targetDay, gooduck_url3),
+      //                   spoCheckIn(targetMonth, targetDay),
+      //                   spoCheckOut(targetMonth, targetDay)];
+
       const promises = [sajickCheck(targetMonth, targetDay),
-                        GooduckCheck(targetMonth, targetDay, gooduck_url1),
-                        GooduckCheck(targetMonth, targetDay, gooduck_url2),
-                        GooduckCheck(targetMonth, targetDay, gooduck_url3),
-                        spoCheckIn(targetMonth, targetDay),
-                        spoCheckOut(targetMonth, targetDay)];
+        0,
+        0,
+        0,
+        0,
+        0];
 
       // // Wait for both promises to resolve
       // const [sajickList, gooduckList1, gooduckList2, gooduckList3] = await Promise.all(promises);

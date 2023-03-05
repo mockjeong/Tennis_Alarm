@@ -5,9 +5,9 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+    {{!-- <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script> --}}
 
 
     <style>
@@ -48,11 +48,11 @@
         <label for="month">Month:</label>
         <input type="month" id="month" name="month" value="2023-03">
         <label for="day">Day:</label>
-        <input type="text" id="day" name="day" pattern="[0-9]{1,2}" placeholder="DD" value="3">
+        <input type="text" id="day" name="day" pattern="[0-9]{1,2}" placeholder="DD" value="6">
         <input type="submit" value="조회 시작">
       </form>
-      <input type="text" id="datepicker">
-      <script src="pikaday.js"></script>
+      {{!-- <input type="text" id="datepicker"> --}}
+      {{!-- <script src="pikaday.js"></script>
         <script>
           const picker = new Pikaday({
             field: document.getElementById('datepicker'),
@@ -63,7 +63,7 @@
               input.value = formattedDate;
             }
           });
-        </script>
+        </script> --}}
       <div style="color:red;">{{error}}</div>
     </div>
     <div class="loader-wrapper">
