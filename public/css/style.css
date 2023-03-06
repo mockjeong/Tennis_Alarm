@@ -1,10 +1,23 @@
+@media screen and (min-width: 768px) {
 /* Set the width of each column */
-.col {
-  width: 33.33%;
-  float: left;
-  padding: 10px;
-  box-sizing: border-box;
+  .col {
+    width: 100%;
+    float: left;
+    padding: 10px;
+    box-sizing: border-box;
+  }
 }
+
+@media screen and (min-width: 768px) {
+  /* Set the width of each column */
+  .col {
+    width: 33.33%;
+    float: left;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+}
+
 
 /* Add some style to the columns */
 .col1 {
