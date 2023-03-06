@@ -63,25 +63,9 @@ async function sajickCheck(targetMonth, targetDay){
     const calendarBody = await driver.findElement(By.css('div.calendar-body.pc'));
     const reserveApplyElements = await calendarBody.findElements(By.className('chk_court'));
 
-    // var Courtlist = '<ul>';
-    // console.log(`${targetMonth}월 ${targetDay}일의 예약 가능 시간/코트`)
-    // // Loop through the elements and extract the values of the checkboxes
-    // for (const reserveApplyElement of reserveApplyElements) {
-    //   // const checkboxElement = await reserveApplyElement.findElement(By.className('chk_court'));
-    //   const checkboxValue = await reserveApplyElement.getAttribute('value');
-    //   const parts = checkboxValue.split('|');
-    //   const courtNum = parts[0].substr(3);
-    //   const startTime = parseInt(parts[1].substr(2))+5;
-
-    //   console.log(`${startTime}시 ${courtNum}번`);
-    //   Courtlist = Courtlist + `<li>${startTime}시 ${courtNum}번</li>`;
-
-    // }
-    // Courtlist = Courtlist+ '</ul>';
-    // return Courtlist;
-
     var Courtlist = [];
     // console.log(`${targetMonth}월 ${targetDay}일의 예약 가능 시간/코트`)
+    
     // Loop through the elements and extract the values of the checkboxes
     for (const reserveApplyElement of reserveApplyElements) {
       // const checkboxElement = await reserveApplyElement.findElement(By.className('chk_court'));

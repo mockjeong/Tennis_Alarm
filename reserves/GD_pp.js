@@ -26,10 +26,13 @@ async function gdCheck(targetMonth, targetDay) {
   await page.waitForSelector('button[type="submit"]');
   await page.click('button[type="submit"]');
 
+  console.log(`구덕 로그인 완료`);
+
   var url1 = 'https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=289#';
   var url2 = 'https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=290#';
   var url3 = 'https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=291#';
 
+  console.log(`구덕 1번 조회 중...`);
   await page.goto(url1);
 
   //Wait until Current Month is Completely loaded
@@ -72,6 +75,7 @@ async function gdCheck(targetMonth, targetDay) {
     }, []);
   });
 
+  console.log(`구덕 2번 조회 중...`);
   await page.goto(url2);
 
   //Wait until Current Month is Completely loaded
@@ -114,6 +118,7 @@ async function gdCheck(targetMonth, targetDay) {
     }, []);
   });
 
+  console.log(`구덕 3번 조회 중...`);
   await page.goto(url3);
 
   //Wait until Current Month is Completely loaded
@@ -157,7 +162,7 @@ async function gdCheck(targetMonth, targetDay) {
   });
 
   await browser.close();
-  console.log(`1번 코트 : ${Courtlist1}, 2번 코트 : ${Courtlist2}, 3번 코트 : ${Courtlist3}`);
+  // console.log(`1번 코트 : ${Courtlist1}, 2번 코트 : ${Courtlist2}, 3번 코트 : ${Courtlist3}`);
   console.log('구덕 조회 종료');
   return [Courtlist1,Courtlist2,Courtlist3];
 }

@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const {sajickCheck} = require('../reserves/sajick.js');
-const {gdCheck} = require('../reserves/GD_pp.js');
-const {spoCheckIn, spoCheckOut} = require('../reserves/spoone.js');
+const {sjCheck} = require('../reserves/SJ_PP.js');
+const {gdCheck} = require('../reserves/GD_PP.js');
+const {spoCheck} = require('../reserves/SP_PP.js');
 var fs = require('fs');
 const handlebars = require('handlebars');
 
@@ -25,10 +26,10 @@ router.use('/', async (req, res) =>{
       var targetMonth = parseInt(post.month.split('-')[1]);
       var targetDay = post.day;
 
-      const promises = [sajickCheck(targetMonth, targetDay),
+      const promises = [sjCheck(targetMonth, targetDay),
         gdCheck(targetMonth, targetDay),
-        spoCheckIn(targetMonth, targetDay),
-        spoCheckOut(targetMonth, targetDay)];
+        spoCheck(targetMonth, targetDay)
+      ];//spoCheckOut(targetMonth, targetDay)];
 
       // Wait for all promises to either fulfill or reject
       const results = await Promise.allSettled(promises);
@@ -47,7 +48,7 @@ router.use('/', async (req, res) =>{
       }
 
       // Get the values from the fulfilled promises
-      const [sajickList, gooduckList1, spooneList1, spooneList2] = fulfilledResults.map(result => result.value);
+      const [sajickList, gooduckList1, spooneList1] = fulfilledResults.map(result => result.value);
 
       var template = handlebars.compile(fs.readFileSync('./views/index.handlebars', 'utf8'));
       var html = template({ error: '', 
@@ -55,8 +56,8 @@ router.use('/', async (req, res) =>{
                             gooduckResult1: gooduckList1[0], 
                             gooduckResult2: gooduckList1[1], 
                             gooduckResult3: gooduckList1[2],
-                            sponeResult1:spooneList1,
-                            sponeResult2:spooneList2});
+                            sponeResult1:spooneList1[0],
+                            sponeResult2:spooneList1[1]});
       res.send(html);
   }
 })
