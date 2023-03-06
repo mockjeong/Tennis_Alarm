@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const {sajickCheck} = require('../reserves/sajick.js');
-const {GooduckCheck} = require('../reserves/Gooduck.js');
+const {gdCheck} = require('../reserves/GD_pp.js');
 const {spoCheckIn, spoCheckOut} = require('../reserves/spoone.js');
 var fs = require('fs');
 const handlebars = require('handlebars');
@@ -24,27 +24,11 @@ router.use('/', async (req, res) =>{
       var post = req.body;
       var targetMonth = parseInt(post.month.split('-')[1]);
       var targetDay = post.day;
-      var gooduck_url1 = 'https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=289#';
-      var gooduck_url2 = 'https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=290#';
-      var gooduck_url3 = 'https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=291#';
-
-       // Create an array of promises for both sajickCheck function calls
-      // const promises = [sajickCheck(targetMonth, targetDay),
-      //                   GooduckCheck(targetMonth, targetDay, gooduck_url1),
-      //                   GooduckCheck(targetMonth, targetDay, gooduck_url2),
-      //                   GooduckCheck(targetMonth, targetDay, gooduck_url3),
-      //                   spoCheckIn(targetMonth, targetDay),
-      //                   spoCheckOut(targetMonth, targetDay)];
 
       const promises = [sajickCheck(targetMonth, targetDay),
-        GooduckCheck(targetMonth, targetDay, gooduck_url1),
-        0,
-        0,
+        gdCheck(targetMonth, targetDay),
         spoCheckIn(targetMonth, targetDay),
         spoCheckOut(targetMonth, targetDay)];
-
-      // // Wait for both promises to resolve
-      // const [sajickList, gooduckList1, gooduckList2, gooduckList3] = await Promise.all(promises);
 
       // Wait for all promises to either fulfill or reject
       const results = await Promise.allSettled(promises);
@@ -63,14 +47,14 @@ router.use('/', async (req, res) =>{
       }
 
       // Get the values from the fulfilled promises
-      const [sajickList, gooduckList1, gooduckList2, gooduckList3, spooneList1, spooneList2] = fulfilledResults.map(result => result.value);
+      const [sajickList, gooduckList1, spooneList1, spooneList2] = fulfilledResults.map(result => result.value);
 
       var template = handlebars.compile(fs.readFileSync('./views/index.handlebars', 'utf8'));
       var html = template({ error: '', 
                             sajickResult: sajickList, 
-                            gooduckResult1: gooduckList1, 
-                            gooduckResult2: gooduckList2, 
-                            gooduckResult3: gooduckList3,
+                            gooduckResult1: gooduckList1[0], 
+                            gooduckResult2: gooduckList1[1], 
+                            gooduckResult3: gooduckList1[2],
                             sponeResult1:spooneList1,
                             sponeResult2:spooneList2});
       res.send(html);
