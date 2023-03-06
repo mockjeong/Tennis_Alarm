@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {sajickCheck} = require('../reserves/sajick.js');
+// const {sajickCheck} = require('../reserves/sajick.js');
 const {sjCheck} = require('../reserves/SJ_PP.js');
 const {gdCheck} = require('../reserves/GD_P.js');
 const {spoCheck} = require('../reserves/SP_PP.js');
@@ -8,7 +8,7 @@ var fs = require('fs');
 const handlebars = require('handlebars');
 
 router.use('/', async (req, res) =>{
-  const { month, day } = req.body;
+const { month, day } = req.body;
 
   // Check if the input month and day are within 7 days of today's date
   const inputDate = new Date(`${month}-${day}`);

@@ -27,6 +27,7 @@ async function gdCheck(targetMonth, targetDay) {
   await page.click('button[type="submit"]');
 
   console.log(`구덕 로그인 완료`);
+  await new Promise(resolve => setTimeout(resolve, 500));
 
   var url1 = 'https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=289#';
   var url2 = 'https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=290#';
@@ -36,10 +37,10 @@ async function gdCheck(targetMonth, targetDay) {
   await page.goto(url1);
 
   //Wait until Current Month is Completely loaded
-  await page.waitForSelector('.selectDay', { timeout: 5000 });
+  await page.waitForSelector('.selectDay');
 
   //Wait until Current Month is Completely loaded
-  await page.waitForSelector('.currentMonth', { timeout: 5000 });
+  await page.waitForSelector('.currentMonth');
   let curMonth = await page.evaluate(() => parseInt(document.querySelector('.currentMonth em:last-child').textContent));
 //  console.log('curMonth :', curMonth, 'targetMonth :', targetMonth);
 
@@ -167,5 +168,5 @@ async function gdCheck(targetMonth, targetDay) {
   return [Courtlist1,Courtlist2,Courtlist3];
 }
  module.exports = {gdCheck};
-// Result = gdCheck(3,8);
+//  Result = gdCheck(3,8);
 // console.log(Result[0])
