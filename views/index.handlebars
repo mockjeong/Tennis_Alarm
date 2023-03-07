@@ -44,8 +44,8 @@
   <body>
     <h1><a href="/" >AKZD Court Check</a></h1> 
     <div>
-      <form action="/tennis" method="post" style="margin-bottom:10px">
-        <div>        
+      <form action="/tennis" method="post">
+        <div style="margin-bottom:10px">        
           <label for="court-select">구장 선택 : </label>
           <select id="court-select" name="court">
             <option value="not_selected">구장 선택</option>
@@ -54,7 +54,7 @@
             <option value="spoone">스포원 테니스장</option>
           </select>
         </div>
-        <div class="dateSelect" style="display:none">        
+        <div class="dateSelect" style="display:none;margin-bottom:10px" >        
           <label>조회 날짜 :</label>
           <input type="text" id="datepicker" name = "selectedDate" placeholder="클릭">
           <input type="submit" value="조회 시작">
