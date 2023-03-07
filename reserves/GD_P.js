@@ -27,7 +27,7 @@ async function gdCheck(targetMonth, targetDay) {
   await page.click('button[type="submit"]');
 
   console.log(`구덕 로그인 완료`);
-  await new Promise(resolve => setTimeout(resolve, 500));
+  await new Promise(resolve => setTimeout(resolve, 1000));
 
   var url1 = 'https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=289#';
   var url2 = 'https://reserve.busan.go.kr/rent/preStep?resveProgrmSe=R&resveGroupSn=475&progrmSn=290#';
@@ -56,7 +56,7 @@ async function gdCheck(targetMonth, targetDay) {
     }
   }
 
-  await new Promise(resolve => setTimeout(resolve, 500));
+  await new Promise(resolve => setTimeout(resolve, 1000));
   let dateSelectXpath = `//a[contains(text(), '${targetDay}')]`;
   await page.waitForXPath(dateSelectXpath);
   let dateElement = await page.$x(dateSelectXpath);
@@ -99,7 +99,7 @@ async function gdCheck(targetMonth, targetDay) {
     }
   }
 
-  await new Promise(resolve => setTimeout(resolve, 500));
+  await new Promise(resolve => setTimeout(resolve, 1000));
   dateSelectXpath = `//a[contains(text(), '${targetDay}')]`;
   await page.waitForXPath(dateSelectXpath);
   dateElement = await page.$x(dateSelectXpath);
@@ -142,7 +142,7 @@ async function gdCheck(targetMonth, targetDay) {
     }
   }
 
-  await new Promise(resolve => setTimeout(resolve, 500));
+  await new Promise(resolve => setTimeout(resolve, 1000));
   dateSelectXpath = `//a[contains(text(), '${targetDay}')]`;
   await page.waitForXPath(dateSelectXpath);
   dateElement = await page.$x(dateSelectXpath);
