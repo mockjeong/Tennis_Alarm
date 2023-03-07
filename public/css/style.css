@@ -18,6 +18,10 @@
   }
 }
 
+.court:not(#selectedCourt) {
+  display:none;
+}
+
 /* Add some style to the columns */
 .col1 {
   background-color: #f2f2f2;

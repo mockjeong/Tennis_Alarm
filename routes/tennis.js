@@ -10,6 +10,7 @@ const moment = require('moment');
 router.use('/', async (req, res) =>{
 
   var post = req.body;
+  console.log(post);
   const momentDate = moment(post.selectedDate, 'YYYY년 MM월 DD일');
   var targetMonth = momentDate.month() + 1;
   var targetDay =  momentDate.date();
@@ -18,9 +19,13 @@ router.use('/', async (req, res) =>{
   const currentMonth = today.month() + 1;
   const currentDay = today.date();
 
-  const promises = [sjCheck(targetMonth, targetDay),
-    currentMonth === targetMonth && currentDay === targetDay ? [,,] : gdCheck(targetMonth, targetDay),
-    spoCheck(targetMonth, targetDay)
+  // const promises = [sjCheck(targetMonth, targetDay),
+  //   currentMonth === targetMonth && currentDay === targetDay ? [,,] : gdCheck(targetMonth, targetDay),
+  //   spoCheck(targetMonth, targetDay)
+  // ];//spoCheckOut(targetMonth, targetDay)];
+  const promises = [0,
+    0,
+    0
   ];//spoCheckOut(targetMonth, targetDay)];
 
   // Wait for all promises to either fulfill or reject

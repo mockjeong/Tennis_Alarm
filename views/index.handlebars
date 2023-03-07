@@ -43,6 +43,15 @@
   </head>
   <body>
     <h1><a href="/" >AKZD Court Check</a></h1>
+    <div>    
+      <label for="court-select">구장 선택 : </label>
+      <select id="court-select" name="court">
+        <option value="not_selected">구장 선택</option>
+        <option value="sajick">사직 테니스장</option>
+        <option value="gooduck">구덕 테니스장</option>
+        <option value="spoone">스포원 테니스장</option>
+      </select>
+    </div>  
     <div>
       <form action="/tennis" method="post" style="margin-bottom:10px">
         <label>조회 날짜 :</label>
@@ -73,94 +82,99 @@
           }
         });
       </script>
-      <label for="court-select">검색하고자 하는 구장을 선택해주세요</label>
-      <select id="court-select" name="court" value = "empty">
-        <option value="sajick">사직 테니스장</option>
-        <option value="gooduck">구덕 테니스장</option>
-        <option value="spoone">스포원 테니스장</option>
-      </select>
-      <!-- JavaScript code to handle dropdown selection -->
-      <script>
-        const dropdown = document.getElementById('court-selector');
-
-        dropdown.addEventListener('change', (event) => {
-          const selectedCourt = event.target.value;
-          console.log(`Selected court: ${selectedCourt}`);
-
-          // Add code to update the displayed information based on the selected court
-        });
-      </script>
     <div style="color:red;">{{error}}</div>
     </div>
     <div class="loader-wrapper">
       <div class="loader"></div>
     </div>
-    <div class="row">
-      <div class="col col1">
-        <div class="content">
-          <h2>사직 테니스장</h2>
-          <ul>
-            {{#each sajickResult}}
-              <li>{{this}}</li>
-            {{/each}}
-          </ul>
-        </div>
+
+    <div id="sajick" class="court" style="display:none;">
+      <div class="content">
+        <h2>사직 테니스장</h2>
+        <ul>
+          {{#each sajickResult}}
+            <li>{{this}}</li>
+          {{/each}}
+        </ul>
       </div>
-      <div class="col col2">
-        <div class="content">
-          <h2>구덕 테니스장 (당일 조회 불가)</h2>
-          <div class = "row">
-            <div class="col2_1">
-              <h3>1번 코트</h3>
-                <ul>
-                  {{#each gooduckResult1}}
-                    <li>{{this}}</li>
-                  {{/each}}
-                </ul>
-            </div>
-            <div class="col2_1">
-             <h3>2번 코트</h3>
-                <ul>
-                  {{#each gooduckResult2}}
-                    <li>{{this}}</li>
-                  {{/each}}
-                </ul>
-            </div>
-            <div class="col2_1">
-             <h3>3번 코트</h3>
-                <ul>
-                  {{#each gooduckResult3}}
-                    <li>{{this}}</li>
-                  {{/each}}
-                </ul>
-            </div>
-          </div>             
-        </div>
+    </div>
+
+    <div id="gooduck" class="court" style="display:none;">
+      <div class="content">
+        <h2>구덕 테니스장</h2>
+        <div class = "row">
+          <div class="col2_1">
+            <h3>1번 코트</h3>
+            <ul>
+              {{#each gooduckResult1}}
+                <li>{{this}}</li>
+              {{/each}}
+            </ul>
+          </div>
+          <div class="col2_1">
+            <h3>2번 코트</h3>
+            <ul>
+              {{#each gooduckResult2}}
+                <li>{{this}}</li>
+              {{/each}}
+            </ul>
+          </div>
+          <div class="col2_1">
+            <h3>3번 코트</h3>
+            <ul>
+              {{#each gooduckResult3}}
+                <li>{{this}}</li>
+              {{/each}}
+            </ul>
+          </div>
+        </div>             
       </div>
-      <div class="col col3">
-        <div class="content">
-          <h2>스포원테니스장</h2>
-          <div class ="row">
-            <div class="col3_1">
-              <h3>실내</h3>
-              <ul>
+    </div>
+
+    <div id="spoone" class="court" style="display:none;">
+      <div class="content">
+        <h2>스포원 테니스장</h2>
+        <div class ="row">
+          <div class="col3_1">
+            <h3>실내</h3>
+            <ul>
               {{#each sponeResult1}}
                 <li>{{this}}</li>
               {{/each}}
-              </ul>
-            </div>
-            <div class="col3_1">
-              <h3>실외</h3>
-              <ul>
+            </ul>
+          </div>
+          <div class="col3_1">
+            <h3>실외</h3>
+            <ul>
               {{#each sponeResult2}}
                 <li>{{this}}</li>
               {{/each}}
-              </ul>
-            </div>
+            </ul>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- JavaScript code to handle dropdown selection -->
+    <script>
+      const courtSelector = document.getElementById('court-select');
+      const courts = document.querySelectorAll(".court");
+      const form = document.getElementById('datepicker');
+
+      courtSelector.addEventListener('change', function(event) {
+        const selectedCourt = event.target.value;
+        console.log(selectedCourt);
+        courts.forEach(function(court) {
+          if (court.id === selectedCourt) {
+            court.style.display = "block";
+          } else {
+            court.style.display = "none";
+          }
+        });
+        form.submit();
+      });
+    </script>
+
     <script>
       // Show the loader when the form is submitted
       document.querySelector('form').addEventListener('submit', function() {
