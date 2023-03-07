@@ -10,7 +10,11 @@ router.get('/', function(req, res){
     error = fmsg.error;
   }
   var template = handlebars.compile(fs.readFileSync('./views/index.handlebars', 'utf8'));
-  var html = template({ error: error});
+  var html = template({ error: error,
+                        sjDisplay : 'none',
+                        gdDisplay : 'none',
+                        spDisplay : 'none',      
+                      });
 
   res.send(html);
 });

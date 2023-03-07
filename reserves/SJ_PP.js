@@ -18,7 +18,7 @@ async function sjCheck(targetMonth, targetDay){
   setTimeout(() => {
     browser.close();
   }, 60000);
-  
+
   const page = await browser.newPage();
   await page.setViewport({ width: 800, height: 600 });
 
