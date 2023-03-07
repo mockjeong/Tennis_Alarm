@@ -2,13 +2,14 @@ const puppeteer = require('puppeteer');
 
 async function gdCheck(targetMonth, targetDay) {
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
       '--disable-dev-shm-usage',
       '--disable-accelerated-2d-canvas',
       '--no-first-run',
+      "--window-size=1920,1080",
       '--no-zygote',
       '--disable-gpu',
     ],
@@ -35,6 +36,7 @@ async function gdCheck(targetMonth, targetDay) {
 
   console.log(`구덕 1번 조회 중...`);
   await page.goto(url1);
+  await new Promise(resolve => setTimeout(resolve, 500));
 
   //Wait until Current Month is Completely loaded
   await page.waitForSelector('.selectDay');
@@ -78,6 +80,7 @@ async function gdCheck(targetMonth, targetDay) {
 
   console.log(`구덕 2번 조회 중...`);
   await page.goto(url2);
+  await new Promise(resolve => setTimeout(resolve, 500));
 
   //Wait until Current Month is Completely loaded
   await page.waitForSelector('.selectDay', { timeout: 5000 });
@@ -121,6 +124,7 @@ async function gdCheck(targetMonth, targetDay) {
 
   console.log(`구덕 3번 조회 중...`);
   await page.goto(url3);
+  await new Promise(resolve => setTimeout(resolve, 500));
 
   //Wait until Current Month is Completely loaded
   await page.waitForSelector('.selectDay', { timeout: 5000 });
