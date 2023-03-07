@@ -73,8 +73,24 @@
           }
         });
       </script>
+      <label for="court-select">검색하고자 하는 구장을 선택해주세요</label>
+      <select id="court-select" name="court" value = "empty">
+        <option value="sajick">사직 테니스장</option>
+        <option value="gooduck">구덕 테니스장</option>
+        <option value="spoone">스포원 테니스장</option>
+      </select>
+      <!-- JavaScript code to handle dropdown selection -->
+      <script>
+        const dropdown = document.getElementById('court-selector');
 
-      <div style="color:red;">{{error}}</div>
+        dropdown.addEventListener('change', (event) => {
+          const selectedCourt = event.target.value;
+          console.log(`Selected court: ${selectedCourt}`);
+
+          // Add code to update the displayed information based on the selected court
+        });
+      </script>
+    <div style="color:red;">{{error}}</div>
     </div>
     <div class="loader-wrapper">
       <div class="loader"></div>
@@ -156,12 +172,6 @@
           alert('날짜를 선택해주세요.');
           return;
         }
-{{!-- 
-        const dateFormat = /^\d{4}년\s\d{2}월\s\d{2}일$/;
-        if (!dateFormat.test(selectedDate)) {
-          alert('올바른 날짜 형식이 아닙니다. 날짜를 다시 선택해주세요.');
-          return;
-        } --}}
 
         document.querySelector('.loader-wrapper').style.display = 'block';
         this.submit(); // submit the form after showing the loader
