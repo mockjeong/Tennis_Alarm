@@ -14,8 +14,12 @@ router.use('/', async (req, res) =>{
   var targetMonth = momentDate.month() + 1;
   var targetDay =  momentDate.date();
 
+  const today = moment().utcOffset(9);
+  const currentMonth = today.month() + 1;
+  const currentDay = today.date();
+
   const promises = [sjCheck(targetMonth, targetDay),
-    gdCheck(targetMonth, targetDay),
+    currentMonth === targetMonth && currentDay === targetDay ? [,,] : gdCheck(targetMonth, targetDay),
     spoCheck(targetMonth, targetDay)
   ];//spoCheckOut(targetMonth, targetDay)];
 
