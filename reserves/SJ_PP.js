@@ -11,7 +11,6 @@ async function sjCheck(targetMonth, targetDay){
       '--disable-dev-shm-usage',
       '--disable-accelerated-2d-canvas',
       '--disable-gpu-sandbox',
-      '--window-size=800,600',
     ],
   });
   const page = await browser.newPage();

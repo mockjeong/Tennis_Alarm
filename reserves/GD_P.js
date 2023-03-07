@@ -9,7 +9,6 @@ async function gdCheck(targetMonth, targetDay) {
       '--disable-dev-shm-usage',
       '--disable-accelerated-2d-canvas',
       '--no-first-run',
-      "--window-size=1920,1080",
       '--no-zygote',
       '--disable-gpu',
     ],
@@ -59,7 +58,7 @@ async function gdCheck(targetMonth, targetDay) {
   }
 
   await new Promise(resolve => setTimeout(resolve, 1000));
-  let dateSelectXpath = `//a[contains(text(), '${targetDay}')]`;
+  let dateSelectXpath = `//a[text()='${targetDay}']`;
   await page.waitForXPath(dateSelectXpath);
   let dateElement = await page.$x(dateSelectXpath);
   await dateElement[0].click();
@@ -103,7 +102,7 @@ async function gdCheck(targetMonth, targetDay) {
   }
 
   await new Promise(resolve => setTimeout(resolve, 1000));
-  dateSelectXpath = `//a[contains(text(), '${targetDay}')]`;
+  dateSelectXpath = `//a[text()='${targetDay}']`;
   await page.waitForXPath(dateSelectXpath);
   dateElement = await page.$x(dateSelectXpath);
   await dateElement[0].click();
@@ -147,7 +146,7 @@ async function gdCheck(targetMonth, targetDay) {
   }
 
   await new Promise(resolve => setTimeout(resolve, 1000));
-  dateSelectXpath = `//a[contains(text(), '${targetDay}')]`;
+  dateSelectXpath = `//a[text()='${targetDay}']`;
   await page.waitForXPath(dateSelectXpath);
   dateElement = await page.$x(dateSelectXpath);
   await dateElement[0].click();
