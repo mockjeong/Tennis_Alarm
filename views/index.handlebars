@@ -42,46 +42,24 @@
     </style>
   </head>
   <body>
-    <h1><a href="/" >AKZD Court Check</a></h1>
-    <div>    
-      <label for="court-select">구장 선택 : </label>
-      <select id="court-select" name="court">
-        <option value="not_selected">구장 선택</option>
-        <option value="sajick">사직 테니스장</option>
-        <option value="gooduck">구덕 테니스장</option>
-        <option value="spoone">스포원 테니스장</option>
-      </select>
-    </div>  
+    <h1><a href="/" >AKZD Court Check</a></h1> 
     <div>
       <form action="/tennis" method="post" style="margin-bottom:10px">
-        <label>조회 날짜 :</label>
-        <input type="text" id="datepicker" name = "selectedDate" placeholder="클릭">
-        <input type="submit" value="조회 시작">
+        <div>        
+          <label for="court-select">구장 선택 : </label>
+          <select id="court-select" name="court">
+            <option value="not_selected">구장 선택</option>
+            <option value="sajick">사직 테니스장</option>
+            <option value="gooduck">구덕 테니스장</option>
+            <option value="spoone">스포원 테니스장</option>
+          </select>
+        </div>
+        <div>        
+          <label>조회 날짜 :</label>
+          <input type="text" id="datepicker" name = "selectedDate" placeholder="클릭">
+          <input type="submit" value="조회 시작">
+        </div>
       </form>
-      <script>
-        // Set the minimum and maximum selectable dates to the current Korean date/time
-        var now = moment().utcOffset(9);
-        var minDate = now;
-        var maxDate = now.clone().add(6, 'days');
-
-        const picker = new Pikaday({
-          field: document.getElementById('datepicker'),
-          format: 'YYYY-MM-DD',
-          minDate: minDate.toDate(),
-          maxDate: maxDate.toDate(),
-          onSelect: function(date) {
-            const formattedDate = moment(date).format('YYYY년 MM월 DD일');
-            const input = document.getElementById('datepicker');
-            input.value = formattedDate;
-
-            var selectedDate = moment(date).format('YYYY-MM-DD');
-            // Extract the year and month components
-            var month = moment(date).format('YYYY-MM');
-            // Extract the day component
-            var day = moment(date).format('DD');
-          }
-        });
-      </script>
     <div style="color:red;">{{error}}</div>
     </div>
     <div class="loader-wrapper">
@@ -159,11 +137,9 @@
     <script>
       const courtSelector = document.getElementById('court-select');
       const courts = document.querySelectorAll(".court");
-      const form = document.getElementById('datepicker');
 
       courtSelector.addEventListener('change', function(event) {
         const selectedCourt = event.target.value;
-        console.log(selectedCourt);
         courts.forEach(function(court) {
           if (court.id === selectedCourt) {
             court.style.display = "block";
@@ -171,7 +147,31 @@
             court.style.display = "none";
           }
         });
-        form.submit();
+      });
+    </script>
+
+    <script>
+      // Set the minimum and maximum selectable dates to the current Korean date/time
+      var now = moment().utcOffset(9);
+      var minDate = now;
+      var maxDate = now.clone().add(6, 'days');
+
+      const picker = new Pikaday({
+        field: document.getElementById('datepicker'),
+        format: 'YYYY-MM-DD',
+        minDate: minDate.toDate(),
+        maxDate: maxDate.toDate(),
+        onSelect: function(date) {
+          const formattedDate = moment(date).format('YYYY년 MM월 DD일');
+          const input = document.getElementById('datepicker');
+          input.value = formattedDate;
+
+          var selectedDate = moment(date).format('YYYY-MM-DD');
+          // Extract the year and month components
+          var month = moment(date).format('YYYY-MM');
+          // Extract the day component
+          var day = moment(date).format('DD');
+        }
       });
     </script>
 

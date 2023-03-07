@@ -19,14 +19,21 @@ router.use('/', async (req, res) =>{
   const currentMonth = today.month() + 1;
   const currentDay = today.date();
 
+  let promises = [];
+  if(post.court==='sajick'){
+    promises.push(sjCheck(targetMonth, targetDay));
+  }else{
+    const promises = [0,
+      0,
+      0
+    ];
+  }
+
   // const promises = [sjCheck(targetMonth, targetDay),
   //   currentMonth === targetMonth && currentDay === targetDay ? [,,] : gdCheck(targetMonth, targetDay),
   //   spoCheck(targetMonth, targetDay)
   // ];//spoCheckOut(targetMonth, targetDay)];
-  const promises = [0,
-    0,
-    0
-  ];//spoCheckOut(targetMonth, targetDay)];
+//spoCheckOut(targetMonth, targetDay)];
 
   // Wait for all promises to either fulfill or reject
   const results = await Promise.allSettled(promises);
@@ -45,16 +52,17 @@ router.use('/', async (req, res) =>{
   }
 
   // Get the values from the fulfilled promises
-  const [sajickList, gooduckList1, spooneList1] = fulfilledResults.map(result => result.value);
+  const [Resultlist] = fulfilledResults.map(result => result.value);
 
   var template = handlebars.compile(fs.readFileSync('./views/index.handlebars', 'utf8'));
   var html = template({ error: '', 
-                        sajickResult: sajickList, 
-                        gooduckResult1: gooduckList1[0], 
-                        gooduckResult2: gooduckList1[1], 
-                        gooduckResult3: gooduckList1[2],
-                        sponeResult1:spooneList1[0],
-                        sponeResult2:spooneList1[1]});
+                        sajickResult: Resultlist, 
+                        // gooduckResult1: gooduckList1[0], 
+                        // gooduckResult2: gooduckList1[1], 
+                        // gooduckResult3: gooduckList1[2],
+                        // sponeResult1:spooneList1[0],
+                        // sponeResult2:spooneList1[1]
+                      });
   res.send(html);
 })
 
