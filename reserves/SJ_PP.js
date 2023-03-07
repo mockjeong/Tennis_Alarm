@@ -13,6 +13,12 @@ async function sjCheck(targetMonth, targetDay){
       '--disable-gpu-sandbox',
     ],
   });
+
+  // Set a timeout to close the browser
+  setTimeout(() => {
+    browser.close();
+  }, 60000);
+  
   const page = await browser.newPage();
   await page.setViewport({ width: 800, height: 600 });
 
