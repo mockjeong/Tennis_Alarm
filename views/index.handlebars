@@ -148,7 +148,23 @@
     <script>
       // Show the loader when the form is submitted
       document.querySelector('form').addEventListener('submit', function() {
+
+        event.preventDefault(); // prevent the form from submitting
+
+        const selectedDate = document.getElementById('datepicker').value;
+        if (selectedDate === '') {
+          alert('날짜를 선택해주세요.');
+          return;
+        }
+{{!-- 
+        const dateFormat = /^\d{4}년\s\d{2}월\s\d{2}일$/;
+        if (!dateFormat.test(selectedDate)) {
+          alert('올바른 날짜 형식이 아닙니다. 날짜를 다시 선택해주세요.');
+          return;
+        } --}}
+
         document.querySelector('.loader-wrapper').style.display = 'block';
+        this.submit(); // submit the form after showing the loader
       });
     </script>
   </body>
