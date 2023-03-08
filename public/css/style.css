@@ -98,6 +98,7 @@ a:visited {  color: inherit;  text-decoration: none;}
 a:hover {  color: inherit;  text-decoration: none;}
 
 h1 {
+  font-size :40px;
   color: #FF385C;
 }
 h2 {
@@ -115,4 +116,9 @@ h3 {
 li{
   list-style-type: none;
   text-align:center;
+}
+
+img {
+  width: 40px;
+  color: #FF385C;
 }
