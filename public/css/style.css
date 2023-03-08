@@ -1,20 +1,12 @@
-@media screen and (min-width: 768px) {
-/* Set the width of each column */
-  .col {
-    width: 100%;
-    float: left;
-    padding: 10px;
-    box-sizing: border-box;
-  }
-}
+/* PC (해상도 1024px)*/ 
+@media all and (min-width:1024px) {
+} 
 
-@media screen and (min-width: 768px) {
-  /* Set the width of each column */
-  .col {
-    width: 33.33%;
-    float: left;
-    padding: 10px;
-    box-sizing: border-box;
+/* 모바일 가로, 모바일 세로 (해상도 480px ~ 767px)*/
+/* 테블릿 가로, 테블릿 세로 (해상도 768px ~ 1023px)*/ 
+@media all and (max-width:1023px) {
+  h1 {
+    text-align: center;
   }
 }
 
@@ -22,30 +14,25 @@
   display:none;
 }
 
-/* Add some style to the columns */
-.col1 {
-  background-color: #f2f2f2;
-  border-right: 1px solid #ccc;
-}
-
 .col2 {
-  background-color: #e6e6e6;
-  border-right: 1px solid #ccc;
-  border-left: 1px solid #ccc;
-}
-
-.col2_1 {
-  width: 33%;
+  width: 50%;
   float : left;
 }
 
 .col3 {
-  background-color: #f2f2f2;
-  border-left: 1px solid #ccc;
+  width: 33%;
+  float : left;
+  /* border-right: 1px solid rgb(0, 0, 0); */
 }
 
-.col3_1 {
-  width: 50%;
+.col4 {
+  width: 25%;
+  float : left;
+  /* border-right: 1px solid rgb(0, 0, 0); */
+}
+
+.col5 {
+  width: 20%;
   float : left;
   /* border-right: 1px solid rgb(0, 0, 0); */
 }
@@ -55,6 +42,7 @@
   padding: 20px;
   background-color: #fff;
   border: 1px solid #ccc;
+  border-radius: .375rem;
 }
 
 /* Clear the floats after the columns */
@@ -81,8 +69,8 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
   margin: -50px 0 0 -50px;
   border-radius: 50%;
   border: 3px solid transparent;
@@ -105,14 +93,25 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-a:link { color: #FF385C; text-decoration: none;}
-a:visited { color: #FF385C; text-decoration: none;}
-a:hover { color:#FF385C; text-decoration: none;}
+a:link { color: inherit; text-decoration: none;}
+a:visited {  color: inherit;  text-decoration: none;}
+a:hover {  color: inherit;  text-decoration: none;}
 
+h1 {
+  color: #FF385C;
+}
 h2 {
   text-align: center;
 }
 
 h3 {
   text-align: center;
+}
+
+.sjresult{
+  height : 280px;
+}
+
+ul{
+  list-style-type: none;
 }

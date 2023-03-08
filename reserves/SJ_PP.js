@@ -52,8 +52,7 @@ async function sjCheck(targetMonth, targetDay){
     await dateSelectElement.click();
 
     await page.waitForSelector('div.calendar-body.pc > table');
-
-    const reserveApplyElements = await page.$$('.chk_court');
+    const reserveApplyElements = await page.$$('.calendar-body table tbody td input[type="checkbox"]');
 
     var Courtlist = [];
 
@@ -62,12 +61,29 @@ async function sjCheck(targetMonth, targetDay){
       const parts = checkboxValue.split('|');
       const courtNum = parts[0].substr(3) === '0' ? '10' : parts[0].substr(3);
       const startTime = parseInt(parts[1].substr(2)) + 5;
-//      console.log(`사직 ${startTime}시 ${courtNum}번`);
-      Courtlist.push(`${startTime}시 ${courtNum}번`);
+      // Courtlist.push(`${startTime}시 ${courtNum}번`);
+      Courtlist.push({
+        courtNum: courtNum,
+        startTime: startTime
+      });
     }
 
+    // Sort the array by courtNum in ascending order
+    Courtlist.sort((a, b) => a.courtNum - b.courtNum);
+
+    // Group the results by courtNum
+    const groupedResults = Courtlist.reduce((acc, curr) => {
+      const index = acc.findIndex(item => item.courtNum === curr.courtNum);
+      if (index === -1) {
+        acc.push({ courtNum: curr.courtNum, startTimes: [curr.startTime] });
+      } else {
+        acc[index].startTimes.push(curr.startTime);
+      }
+      return acc;
+    }, []);
+
     console.log(`사직 조회 종료`);
-    return Courtlist;
+    return groupedResults;
   }
   finally {
     await browser.close();

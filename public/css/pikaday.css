@@ -151,7 +151,7 @@ http://nicolasgallagher.com/micro-clearfix-hack/
     color: #666;
     font-size: 14px;
     line-height: 15px;
-    text-align: right;
+    text-align: center;
     background: white;
     height: initial;
     font-weight: bold;
@@ -229,5 +229,13 @@ http://nicolasgallagher.com/micro-clearfix-hack/
 /* styling for abbr */
 .pika-table abbr {
     border-bottom: none;
-    cursor: help;
 }
+
+/* Set the font family and font size for the day labels */
+.pika-lendar th abbr {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    text-decoration:none;
+    text-align:center;
+    color:black;
+  }

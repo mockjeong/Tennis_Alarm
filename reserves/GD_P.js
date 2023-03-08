@@ -172,10 +172,7 @@ async function gdCheck(targetMonth, targetDay) {
   });
 
   await browser.close();
-  // console.log(`1번 코트 : ${Courtlist1}, 2번 코트 : ${Courtlist2}, 3번 코트 : ${Courtlist3}`);
   console.log('구덕 조회 종료');
   return [Courtlist1,Courtlist2,Courtlist3];
 }
  module.exports = {gdCheck};
-//  Result = gdCheck(3,8);
-// console.log(Result[0])

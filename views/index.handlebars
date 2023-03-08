@@ -5,44 +5,12 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/pikaday.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-
-    <style>
-      /* Hide the loader initially */
-      .loader-wrapper {
-        display: none;
-        position: fixed;
-        z-index: 9999;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 255, 255, 0.7);
-      }
-
-      .loader {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        border: 16px solid #f3f3f3;
-        border-top: 16px solid #3498db;
-        border-radius: 50%;
-        width: 120px;
-        height: 120px;
-        animation: spin 2s linear infinite;
-      }
-
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-    </style>
   </head>
   <body>
-    <h1><a href="/" >AKZD Court Check</a></h1> 
+    <h1><a href="/">AKZD Court Check</a></h1> 
     <div>
       <form action="/tennis" method="post">
         <div style="margin-bottom:10px">        
@@ -56,7 +24,7 @@
         </div>
         <div class="dateSelect" style="display:none;margin-bottom:10px" >        
           <label>조회 날짜 :</label>
-          <input type="text" id="datepicker" name = "selectedDate" placeholder="클릭">
+          <input type="text" id="datepicker" name = "selectedDate" placeholder="클릭" readonly>
           <input type="submit" value="조회 시작">
         </div>
       </form>
@@ -65,40 +33,45 @@
     <div class="loader-wrapper">
       <div class="loader"></div>
     </div>
-
     <div id="sajick" class="court" style="display:{{sjDisplay}};">
       <div class="content">
-        <h2>사직 테니스장</h2>
-        <ul>
+        <h2><a href='https://sajiktennis.kr/html/' target='_blank'>사직 테니스장</a></h2>
+        <div class = "row">
           {{#each sajickResult}}
-            <li>{{this}}</li>
+          <div class="col5 sjresult">
+            <h3>{{this.courtNum}}번 코트</h3>
+            <ul>
+              {{#each this.startTimes}}
+                <li>{{this}}시</li>
+              {{/each}}
+            </ul>
+          </div>
           {{/each}}
-        </ul>
+        </div>
       </div>
     </div>
-
     <div id="gooduck" class="court" style="display:{{gdDisplay}};">
       <div class="content">
         <h2>구덕 테니스장</h2>
         <div class = "row">
-          <div class="col2_1">
-            <h3>1번 코트</h3>
+          <div class="col3">
+            <h3><a href='https://reserve.busan.go.kr/rent/view?resveGroupSn=475&progrmSn=289' target='_blank'>1번 코트</a></h3>
             <ul>
               {{#each gooduckResult1}}
                 <li>{{this}}</li>
               {{/each}}
             </ul>
           </div>
-          <div class="col2_1">
-            <h3>2번 코트</h3>
+          <div class="col3">
+            <h3><a href='https://reserve.busan.go.kr/rent/view?resveGroupSn=475&progrmSn=290' target='_blank'>2번 코트</a></h3>
             <ul>
               {{#each gooduckResult2}}
                 <li>{{this}}</li>
               {{/each}}
             </ul>
           </div>
-          <div class="col2_1">
-            <h3>3번 코트</h3>
+          <div class="col3">
+            <h3><a href='https://reserve.busan.go.kr/rent/view?resveGroupSn=475&progrmSn=291' target='_blank'>3번 코트</a></h3>
             <ul>
               {{#each gooduckResult3}}
                 <li>{{this}}</li>
@@ -108,21 +81,20 @@
         </div>             
       </div>
     </div>
-
     <div id="spoone" class="court" style="display:{{spDisplay}};">
       <div class="content">
         <h2>스포원 테니스장</h2>
         <div class ="row">
-          <div class="col3_1">
-            <h3>실내</h3>
+          <div class="col2">
+            <h3><a href='https://nrsv.spo1.or.kr/rent/application/index/' target='_blank'>실내</a></h3>
             <ul>
               {{#each sponeResult1}}
                 <li>{{this}}</li>
               {{/each}}
             </ul>
           </div>
-          <div class="col3_1">
-            <h3>실외</h3>
+          <div class="col2">
+            <h3><a href='https://nrsv.spo1.or.kr/rent/application/index/' target='_blank'>실외</a></h3>
             <ul>
               {{#each sponeResult2}}
                 <li>{{this}}</li>
@@ -132,7 +104,6 @@
         </div>
       </div>
     </div>
-
     <!-- JavaScript code to handle dropdown selection -->
     <script>
       const courtSelector = document.getElementById('court-select');
@@ -141,6 +112,14 @@
       const picker = new Pikaday({
         field: document.getElementById('datepicker'),
         format: 'YYYY-MM-DD',
+        i18n: {
+          previousMonth: '이전달',
+          nextMonth: '다음달',
+          months: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+          weekdays: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+          weekdaysShort: ['일', '월', '화', '수', '목', '금', '토']
+        },
+        firstDay:1,
         onSelect: function(date) {
           const formattedDate = moment(date).format('YYYY년 MM월 DD일');
           const input = document.getElementById('datepicker');
@@ -179,7 +158,7 @@
           case 'spoone':
             var now = moment().utcOffset(9);
             var minDate = now;
-            var maxDate = now.clone().add(6, 'days');
+            var maxDate = now.clone().add(7, 'days');
             document.querySelector(".dateSelect").style.display = 'block';
             break;
           default :
