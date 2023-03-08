@@ -40,11 +40,9 @@
           {{#each sajickResult}}
           <div class="col3 sjresult">
             <h3>{{this.courtNum}}번 코트</h3>
-            <ul>
-              {{#each this.startTimes}}
-                <li>{{this}}시</li>
-              {{/each}}
-            </ul>
+            {{#each this.startTimes}}
+              <li>{{this}}시</li>
+            {{/each}}
           </div>
           {{/each}}
         </div>
@@ -56,19 +54,15 @@
         <div class = "row">
           <div class="col3">
             <h3><a href='https://reserve.busan.go.kr/rent/view?resveGroupSn=475&progrmSn=289' target='_blank'>1번 코트</a></h3>
-            <ul>
-              {{#each gooduckResult1}}
-                <li>{{this}}</li>
-              {{/each}}
-            </ul>
+            {{#each gooduckResult1}}
+              <li>{{this}}</li>
+            {{/each}}
           </div>
           <div class="col3">
             <h3><a href='https://reserve.busan.go.kr/rent/view?resveGroupSn=475&progrmSn=290' target='_blank'>2번 코트</a></h3>
-            <ul>
-              {{#each gooduckResult2}}
-                <li>{{this}}</li>
-              {{/each}}
-            </ul>
+            {{#each gooduckResult2}}
+              <li>{{this}}</li>
+            {{/each}}
           </div>
           <div class="col3">
             <h3><a href='https://reserve.busan.go.kr/rent/view?resveGroupSn=475&progrmSn=291' target='_blank'>3번 코트</a></h3>
