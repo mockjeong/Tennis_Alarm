@@ -42,7 +42,7 @@ async function spoInCheck(targetMonth, targetDay) {
       ]);
 
       try{
-        await page.waitForSelector('.txtcenter');
+        await page.waitForSelector('.action_application');
         let checkboxes = await page.$x("//td[text()='예약가능']");
         if (checkboxes.length === 0) {
           // console.log(`실내 ${courtMapIn[index]}번 예약 불가`);
@@ -129,7 +129,7 @@ async function spoOutCheck(targetMonth, targetDay) {
       ]);
 
       try{
-        await page.waitForSelector('.txtcenter');
+        await page.waitForSelector('.action_application');
         let checkboxes = await page.$x("//td[text()='예약가능']");
         if (checkboxes.length === 0) {
           // console.log(`실외 ${courtMapOut[index]}번 예약 불가`);
