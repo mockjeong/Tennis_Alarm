@@ -1,5 +1,23 @@
 @charset "UTF-8";
 
+@media all and (min-width:1024px) {
+    .pika-lendar {
+        float: left;
+        width: 300px;
+        margin: 8px;
+    }
+} 
+
+/* 모바일 가로, 모바일 세로 (해상도 480px ~ 767px)*/
+/* 테블릿 가로, 테블릿 세로 (해상도 768px ~ 1023px)*/ 
+@media all and (max-width:400px) {
+    .pika-lendar {
+        float: left;
+        width: 250px;
+        margin: 8px;
+    }
+}
+
 /*!
  * Pikaday
  * Copyright © 2014 David Bushell | BSD & MIT license | https://dbushell.com/
@@ -36,11 +54,6 @@ http://nicolasgallagher.com/micro-clearfix-hack/
     box-shadow: 0 5px 15px -5px rgba(0,0,0,.5);
 }
 
-.pika-lendar {
-    float: left;
-    width: 300px;
-    margin: 8px;
-}
 
 .pika-title {
     position: relative;

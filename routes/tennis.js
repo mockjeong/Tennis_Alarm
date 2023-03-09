@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const {sjCheck} = require('../reserves/SJ_PP.js');
 const {gdCheck} = require('../reserves/GD_P.js');
-const {spoCheck} = require('../reserves/SP_PP.js');
+const {spoInCheck, spoOutCheck} = require('../reserves/SP_revised.js');
 var fs = require('fs');
 const handlebars = require('handlebars');
 const moment = require('moment');
@@ -20,7 +20,8 @@ router.use('/', async (req, res) =>{
   const promises =  [
                       post.court==='sajick' ? sjCheck(targetMonth, targetDay) : [],
                       post.court==='gooduck' ? gdCheck(targetMonth, targetDay) : [,,],
-                      post.court==='spoone' ? spoCheck(targetMonth, targetDay) : [,]
+                      post.court==='spoIn' ? spoInCheck(targetMonth, targetDay) : [],
+                      post.court==='spoOut' ? spoOutCheck(targetMonth, targetDay) : []
                     ];
 
 
@@ -42,10 +43,10 @@ router.use('/', async (req, res) =>{
   }
 
   // Get the values from the fulfilled promises
-  const [sajickList, gooduckList, spooneList] = fulfilledResults.map(result => result.value);
+  const [sajickList, gooduckList, spoInList, spoOutList] = fulfilledResults.map(result => result.value);
 
-  const display = ['none', 'none', 'none'];
-  const courtIndex = ['sajick', 'gooduck', 'spoone'].indexOf(post.court);
+  const display = ['none', 'none', 'none', 'none'];
+  const courtIndex = ['sajick', 'gooduck', 'spoIn', 'spoOut'].indexOf(post.court);
   if (courtIndex >= 0) {
     display[courtIndex] = 'block';
   }
@@ -53,14 +54,13 @@ router.use('/', async (req, res) =>{
   var template = handlebars.compile(fs.readFileSync('./views/index.handlebars', 'utf8'));
   var html = template({ error: '', 
                         sajickResult: sajickList, 
-                        gooduckResult1: gooduckList[0], 
-                        gooduckResult2: gooduckList[1], 
-                        gooduckResult3: gooduckList[2],
-                        sponeResult1:spooneList[0],
-                        sponeResult2:spooneList[1],
+                        gooduckResult: gooduckList, 
+                        spInResult:spoInList,
+                        spOutResult:spoOutList,
                         sjDisplay : display[0],
                         gdDisplay : display[1],
-                        spDisplay : display[2],   
+                        spInDisplay : display[2],   
+                        spOutDisplay : display[3],   
                       });
   res.send(html);
 })

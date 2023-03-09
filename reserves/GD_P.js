@@ -172,7 +172,15 @@ async function gdCheck(targetMonth, targetDay) {
   });
 
   await browser.close();
+
+  courtlistTotal = [];
+  courtlistTotal.push({
+    first:Courtlist1,
+    second:Courtlist2,
+    third:Courtlist3
+  })
+
   console.log('구덕 조회 종료');
-  return [Courtlist1,Courtlist2,Courtlist3];
+  return courtlistTotal;
 }
  module.exports = {gdCheck};

@@ -1,5 +1,21 @@
 /* PC (해상도 1024px)*/ 
 @media all and (min-width:1024px) {
+  .col_sj{
+    width: 10%;
+    float : left;
+    height : 200px;
+  }
+
+  .col_gd {
+    width: 10%;
+    float : left;
+  }
+
+  .col_sp{
+    width: 10%;
+    float : left;
+    height : 200px;
+  }
 } 
 
 /* 모바일 가로, 모바일 세로 (해상도 480px ~ 767px)*/
@@ -7,6 +23,20 @@
 @media all and (max-width:1023px) {
   h1 {
     text-align: center;
+  }
+  .col_sj{
+    width: 33%;
+    float : left;
+    height : 275px;
+  }
+  .col_gd {
+    width: 33%;
+    float : left;
+  }
+  .col_sp{
+    width: 33%;
+    float : left;
+    height : 200px;
   }
 }
 
@@ -39,7 +69,7 @@
 
 /* Add some style to the content inside the columns */
 .content {
-  padding: 20px;
+  padding: 10px;
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: .375rem;
@@ -103,15 +133,22 @@ h1 {
 }
 h2 {
   text-align: center;
+  margin : 10px;
 }
 
 h3 {
   text-align: center;
+  margin :5px;
 }
 
 .sjresult{
   height : 280px;
 }
+
+.spresult{
+  height : 280px;
+}
+
 
 li{
   list-style-type: none;

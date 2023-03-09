@@ -19,7 +19,8 @@
             <option value="not_selected">구장 선택</option>
             <option value="sajick">사직 테니스장</option>
             <option value="gooduck">구덕 테니스장</option>
-            <option value="spoone">스포원 테니스장</option>
+            <option value="spoIn">스포원 테니스장 (실내)</option>
+            <option value="spoOut">스포원 테니스장 (실외)</option>
           </select>
         </div>
         <div class="dateSelect" style="display:none;margin-bottom:10px" >        
@@ -38,7 +39,7 @@
         <h2><a href='https://sajiktennis.kr/html/' target='_blank'>사직 테니스장</a></h2>
         <div class = "row">
           {{#each sajickResult}}
-          <div class="col3 sjresult">
+          <div class="col_sj">
             <h3>{{this.courtNum}}번 코트</h3>
             {{#each this.startTimes}}
               <li>{{this}}시</li>
@@ -52,49 +53,56 @@
       <div class="content">
         <h2>구덕 테니스장</h2>
         <div class = "row">
-          <div class="col3">
+         {{#each gooduckResult}}
+          <div class="col_gd">
             <h3><a href='https://reserve.busan.go.kr/rent/view?resveGroupSn=475&progrmSn=289' target='_blank'>1번 코트</a></h3>
-            {{#each gooduckResult1}}
+            {{#each this.first}}
               <li>{{this}}</li>
             {{/each}}
           </div>
-          <div class="col3">
+          <div class="col_gd">
             <h3><a href='https://reserve.busan.go.kr/rent/view?resveGroupSn=475&progrmSn=290' target='_blank'>2번 코트</a></h3>
-            {{#each gooduckResult2}}
+            {{#each this.second}}
               <li>{{this}}</li>
             {{/each}}
           </div>
           <div class="col3">
             <h3><a href='https://reserve.busan.go.kr/rent/view?resveGroupSn=475&progrmSn=291' target='_blank'>3번 코트</a></h3>
-            <ul>
-              {{#each gooduckResult3}}
-                <li>{{this}}</li>
-              {{/each}}
-            </ul>
+            {{#each this.third}}
+              <li>{{this}}</li>
+            {{/each}}
           </div>
+          {{/each}}
         </div>             
       </div>
     </div>
-    <div id="spoone" class="court" style="display:{{spDisplay}};">
+    <div id="spoIn" class="court" style="display:{{spInDisplay}};">
       <div class="content">
-        <h2>스포원 테니스장</h2>
-        <div class ="row">
-          <div class="col2">
-            <h3><a href='https://nrsv.spo1.or.kr/rent/application/index/' target='_blank'>실내</a></h3>
-            <ul>
-              {{#each sponeResult1}}
-                <li>{{this}}</li>
-              {{/each}}
-            </ul>
+        <h2><a href='https://nrsv.spo1.or.kr/fmcs/42?center=SPOONE&part=11&place=' target='_blank'></a>스포원 테니스장 (실내)</a></h2>
+        <div class = "row">
+          {{#each spInResult}}
+          <div class="col_sp">
+            <h3>{{this.courtNum}}번 코트</h3>
+            {{#each this.startTimes}}
+              <li>{{this}}시</li>
+            {{/each}}
           </div>
-          <div class="col2">
-            <h3><a href='https://nrsv.spo1.or.kr/rent/application/index/' target='_blank'>실외</a></h3>
-            <ul>
-              {{#each sponeResult2}}
-                <li>{{this}}</li>
-              {{/each}}
-            </ul>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+    <div id="spoOut" class="court" style="display:{{spOutDisplay}};">
+      <div class="content">
+        <h2><a href='https://nrsv.spo1.or.kr/fmcs/42?center=SPOONE&part=15&place=' target='_blank'>스포원 테니스장 (실외)</a></h2>
+        <div class = "row">
+          {{#each spOutResult}}
+          <div class="col_sp">
+            <h3>{{this.courtNum}}번 코트</h3>
+            {{#each this.startTimes}}
+              <li>{{this}}시</li>
+            {{/each}}
           </div>
+          {{/each}}
         </div>
       </div>
     </div>
@@ -149,10 +157,16 @@
             var maxDate = now.clone().add(14, 'days');
             document.querySelector(".dateSelect").style.display = 'block';
             break;
-          case 'spoone':
+          case 'spoIn':
             var now = moment().utcOffset(9);
             var minDate = now;
-            var maxDate = now.clone().add(7, 'days');
+            var maxDate = now.clone().add(8, 'days');
+            document.querySelector(".dateSelect").style.display = 'block';
+            break;
+          case 'spoOut':
+            var now = moment().utcOffset(9);
+            var minDate = now;
+            var maxDate = now.clone().add(8, 'days');
             document.querySelector(".dateSelect").style.display = 'block';
             break;
           default :

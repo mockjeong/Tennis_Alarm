@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 
-async function spoCheck(targetMonth, targetDay) {
+async function spoInCheck(targetMonth, targetDay) {
   const browser = await puppeteer.launch({
     headless: true,
     args: [
@@ -38,11 +38,12 @@ async function spoCheck(targetMonth, targetDay) {
 
       await Promise.all([
         page.waitForNavigation({ timeout: 10000 }),
-        page.goto(`https://nrsv.spo1.or.kr/rent/reservation/index/2023/${targetMonthStr}/${targetDayStr}/1/SPOONE/11/${index}`),
+        page.goto(`https://nrsv.spo1.or.kr/fmcs/42?facilities_type=T&base_date=2023${targetMonthStr}${targetDayStr}&rent_type=1001&center=SPOONE&part=11&place=${index}#regist_list`),
       ]);
 
       try{
-        let checkboxes = await page.$$('input[type="checkbox"].select_check');
+        await page.waitForSelector('.txtcenter');
+        let checkboxes = await page.$x("//td[text()='예약가능']");
         if (checkboxes.length === 0) {
           // console.log(`실내 ${courtMapIn[index]}번 예약 불가`);
         } else {
@@ -51,8 +52,10 @@ async function spoCheck(targetMonth, targetDay) {
             const tds = await tr.$$('td');
             const timeRange = await tds[2].evaluate((td) => td.innerText);
             const time = timeRange.split(' ')[0].substring(0, 2);
-            // console.log(`스포원 실내 ${time}시 ${courtMapIn[index]}번`);
-            courtListIn.push(`${time}시 ${courtMapIn[index]}번`);
+            courtListIn.push({
+              courtNum : courtMapIn[index],
+              startTime : time
+            })
           }
         }
       } catch (e) {
@@ -60,13 +63,54 @@ async function spoCheck(targetMonth, targetDay) {
       }
     }
 
+    courtListIn.sort((a, b) => a.courtNum - b.courtNum);
+
+    // Group the results by courtNum
+    const groupedResults = courtListIn.reduce((acc, curr) => {
+      const index = acc.findIndex(item => item.courtNum === curr.courtNum);
+      if (index === -1) {
+        acc.push({ courtNum: curr.courtNum, startTimes: [curr.startTime] });
+      } else {
+        acc[index].startTimes.push(curr.startTime);
+      }
+      return acc;
+    }, []);
+
     console.log(`스포원 실내 조회 종료`)
-    
-    courtListIn.sort((a, b) => {
-      const [aHour, aMinute] = a.split(' ')[0].split('시');
-      const [bHour, bMinute] = b.split(' ')[0].split('시');
-      return aHour - bHour || aMinute - bMinute;
-    });
+
+    return groupedResults;
+
+  } finally {
+    await browser.close();
+  }
+}
+
+async function spoOutCheck(targetMonth, targetDay) {
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-accelerated-2d-canvas',
+      '--no-first-run',
+      '--no-zygote',
+      '--disable-gpu',
+    ],
+  });
+
+  // Set a timeout to close the browser
+  setTimeout(() => {
+    browser.close();
+  }, 60000);
+  
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1920, height: 1080 });
+  
+  try {
+    //TargetMonth, Day to string with 0 (use padStart)
+    let targetMonthStr = targetMonth.toString().padStart(2, '0');
+    let targetDayStr = targetDay.toString().padStart(2, '0');
 
     var courtListOut = [];
 
@@ -81,11 +125,12 @@ async function spoCheck(targetMonth, targetDay) {
 
       await Promise.all([
         page.waitForNavigation({ timeout: 10000 }),
-        page.goto(`https://nrsv.spo1.or.kr/rent/reservation/index/2023/${targetMonthStr}/${targetDayStr}/1/SPOONE/15/${index}`),
+        page.goto(`https://nrsv.spo1.or.kr/fmcs/42?facilities_type=T&base_date=2023${targetMonthStr}${targetDayStr}&rent_type=1001&center=SPOONE&part=15&place=${index}#regist_list`),
       ]);
 
       try{
-        let checkboxes = await page.$$('input[type="checkbox"].select_check');
+        await page.waitForSelector('.txtcenter');
+        let checkboxes = await page.$x("//td[text()='예약가능']");
         if (checkboxes.length === 0) {
           // console.log(`실외 ${courtMapOut[index]}번 예약 불가`);
         } else {
@@ -95,7 +140,10 @@ async function spoCheck(targetMonth, targetDay) {
             const timeRange = await tds[2].evaluate((td) => td.innerText);
             const time = timeRange.split(' ')[0].substring(0, 2);
             // console.log(`스포원 실외 ${time}시 ${courtMapOut[index]}번`);
-            courtListOut.push(`${time}시 ${courtMapOut[index]}번`);
+            courtListOut.push({
+              courtNum : courtMapOut[index],
+              startTime : time
+            })
           }
         }
       } catch (e) {
@@ -103,23 +151,26 @@ async function spoCheck(targetMonth, targetDay) {
       }
     }
 
-    console.log(`스포원 조회 종료`)
-    
-    courtListOut.sort((a, b) => {
-      const [aHour, aMinute] = a.split(' ')[0].split('시');
-      const [bHour, bMinute] = b.split(' ')[0].split('시');
-      return aHour - bHour || aMinute - bMinute;
-    });
+    courtListOut.sort((a, b) => a.courtNum - b.courtNum);
 
-    courtListTotal = [];
-    courtListTotal.push({
-      first : courtListIn,
-      second : courtListOut
-    })
-    return courtListTotal;
+    // Group the results by courtNum
+    const groupedResults = courtListOut.reduce((acc, curr) => {
+      const index = acc.findIndex(item => item.courtNum === curr.courtNum);
+      if (index === -1) {
+        acc.push({ courtNum: curr.courtNum, startTimes: [curr.startTime] });
+      } else {
+        acc[index].startTimes.push(curr.startTime);
+      }
+      return acc;
+    }, []);
+
+    console.log(`스포원 실외 조회 종료`)
+
+    return groupedResults;
+
   } finally {
     await browser.close();
   }
 }
 
-module.exports = {spoCheck};
+module.exports = {spoInCheck, spoOutCheck};
