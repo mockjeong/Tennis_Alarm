@@ -31,7 +31,7 @@ async function spoInCheck(targetMonth, targetDay) {
     const courtMapIn = { 21: '1', 22: '2', 23: '3', 24: '4', 25: '5', 26: '6' };
     const indicesIn = [21, 22, 23, 24, 25, 26];
 
-    console.log(`스포원 실내 조회 중...`)
+    console.log(`스포원 실내 조회 시작`)
 
     for (let i = 0; i < indicesIn.length; i++) {
       const index = indicesIn[i];
@@ -42,7 +42,7 @@ async function spoInCheck(targetMonth, targetDay) {
       ]);
 
       try{
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise(resolve => setTimeout(resolve, 300));
         let checkboxes = await page.$x("//td[text()='예약가능']");
         if (checkboxes.length === 0) {
           // console.log(`실내 ${courtMapIn[index]}번 예약 불가`);
@@ -118,7 +118,7 @@ async function spoOutCheck(targetMonth, targetDay) {
     const courtMapOut = { 7: '1', 8: '2', 12: '3',13: '4',14: '5',15: '6', 16: '7', 17: '8', 18: '9',19: '10',20: '11'}
     const indicesOut = [7, 8, 12, 13, 14, 15, 16, 17, 18, 19, ];
 
-    console.log(`스포원 실외 조회 중...`)
+    console.log(`스포원 실외 조회 시작`)
 
     for (let i = 0; i < indicesOut.length; i++) {
       const index = indicesOut[i];
@@ -129,7 +129,7 @@ async function spoOutCheck(targetMonth, targetDay) {
       ]);
 
       try{
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise(resolve => setTimeout(resolve, 300));
         let checkboxes = await page.$x("//td[text()='예약가능']");
         if (checkboxes.length === 0) {
           // console.log(`실외 ${courtMapOut[index]}번 예약 불가`);

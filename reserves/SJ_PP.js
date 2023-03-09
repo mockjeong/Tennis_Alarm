@@ -36,12 +36,12 @@ async function sjCheck(targetMonth, targetDay){
     await page.type('#m_pass', userPwd);
     await page.waitForSelector('button[type="submit"]');
     await page.click('button[type="submit"]');
-    console.log(`사직 로그인 완료`);
+    console.log(`사직 조회 시작`);
 
     await page.setViewport({ width: 1920, height: 1080 });
     await page.goto('https://sajiktennis.kr/html/?pCode=7');
 
-    console.log(`사직 조회 중...`);
+    // console.log(`사직 조회 중...`);
 
     await page.waitForSelector('div.calendar-body.pc > table');
 

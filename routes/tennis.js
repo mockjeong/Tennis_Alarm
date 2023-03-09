@@ -6,6 +6,8 @@ const {spoInCheck, spoOutCheck} = require('../reserves/SP_revised.js');
 var fs = require('fs');
 const handlebars = require('handlebars');
 const moment = require('moment');
+var ErrCnt=[0,0,0,0];
+var clickCnt=[0,0,0,0];
 
 router.use('/', async (req, res) =>{
   
@@ -18,10 +20,10 @@ router.use('/', async (req, res) =>{
   var targetDay =  momentDate.date();
 
   const promises =  [
-                      post.court==='sajick' ? sjCheck(targetMonth, targetDay) : [],
-                      post.court==='gooduck' ? gdCheck(targetMonth, targetDay) : [,,],
-                      post.court==='spoIn' ? spoInCheck(targetMonth, targetDay) : [],
-                      post.court==='spoOut' ? spoOutCheck(targetMonth, targetDay) : []
+                      post.court==='sajick' ? sjCheck(targetMonth, targetDay).catch(()=>{ErrCnt[0]++;}) : [],
+                      post.court==='gooduck' ? gdCheck(targetMonth, targetDay).catch(()=>{ErrCnt[1]++;}) : [,,],
+                      post.court==='spoIn' ? spoInCheck(targetMonth, targetDay).catch(()=>{ErrCnt[2]++;}) : [],
+                      post.court==='spoOut' ? spoOutCheck(targetMonth, targetDay).catch(()=>{ErrCnt[3]++;}) : []
                     ];
 
 
@@ -49,7 +51,9 @@ router.use('/', async (req, res) =>{
   const courtIndex = ['sajick', 'gooduck', 'spoIn', 'spoOut'].indexOf(post.court);
   if (courtIndex >= 0) {
     display[courtIndex] = 'block';
+    clickCnt[courtIndex]++;
   }
+  console.log('ClickCnt : ' , clickCnt, 'ErrorCnt : ' , ErrCnt);
 
   var template = handlebars.compile(fs.readFileSync('./views/index.handlebars', 'utf8'));
   var html = template({ error: '', 
