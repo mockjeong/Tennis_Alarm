@@ -1,21 +1,5 @@
 /* PC (해상도 1024px)*/ 
-@media all and (min-width:1024px) {
-  .col_sj{
-    width: 10%;
-    float : left;
-    height : 200px;
-  }
-
-  .col_gd {
-    width: 10%;
-    float : left;
-  }
-
-  .col_sp{
-    width: 10%;
-    float : left;
-    height : 200px;
-  }
+@media (min-width:1024px) {
 } 
 
 /* 모바일 가로, 모바일 세로 (해상도 480px ~ 767px)*/
@@ -24,20 +8,34 @@
   h1 {
     text-align: center;
   }
-  .col_sj{
-    width: 33%;
-    float : left;
-    height : 275px;
-  }
-  .col_gd {
-    width: 33%;
-    float : left;
-  }
-  .col_sp{
-    width: 33%;
-    float : left;
-    height : 200px;
-  }
+}
+
+.col_sj{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+.col_gd {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+.col_sp{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+.row{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(33%, 1fr));
+}
+
+div{
+  max-width: 1000px;
+  margin:0 auto;
 }
 
 .court:not(#selectedCourt) {
