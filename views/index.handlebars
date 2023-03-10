@@ -54,6 +54,24 @@
         // Hide the loader when the user navigates away from the page
         document.querySelector('.loader-wrapper').style.display = 'none';
       };
+
+      // Check if the Page Visibility API is supported
+      if (typeof document.hidden !== "undefined") {
+        // Add an event listener to hide the loader when the page becomes hidden
+        document.addEventListener("visibilitychange", function() {
+          if (document.hidden) {
+            // Hide the loader when the user navigates away from the page
+            document.querySelector('.loader-wrapper').style.display = 'none';
+          }
+        });
+      } else {
+        // Fallback for browsers that don't support the Page Visibility API
+        window.addEventListener("blur", function() {
+          // Hide the loader when the user navigates away from the page
+          document.querySelector('.loader-wrapper').style.display = 'none';
+        });
+      }
+
       const courtSelector = document.getElementById('court-select');
       const courts = document.querySelectorAll(".court");
 
