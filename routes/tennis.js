@@ -55,8 +55,10 @@ router.use('/', async (req, res) =>{
   }
   console.log('ClickCnt : ' , clickCnt, 'ErrorCnt : ' , ErrCnt);
 
-  var template = handlebars.compile(fs.readFileSync('./views/index.handlebars', 'utf8'));
-  var html = template({ error: '', 
+  var template = handlebars.compile(fs.readFileSync('./views/result.handlebars', 'utf8'));
+  var html = template({ error: '',
+                        scanedMonth : targetMonth,
+                        scanedDay : targetDay,
                         sajickResult: sajickList, 
                         gooduckResult: gooduckList, 
                         spInResult:spoInList,

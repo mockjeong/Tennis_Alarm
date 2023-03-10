@@ -19,7 +19,8 @@
     </script>
   </head>
   <body>
-    <h1><a href="/"><img src="/img/logo.svg"> Court Scanner</a></h1> 
+    {{!-- <h1><a href="/"><img src="/img/logo.svg"> Court Scanner</a></h1> --}}
+    <h1><a href="/">Court Scanner</a></h1> 
     <div>
       <form action="/tennis" method="post">
         <div style="margin-bottom:10px">        
@@ -42,78 +43,6 @@
     </div>
     <div class="loader-wrapper">
       <div class="loader"></div>
-    </div>
-    <div id="sajick" class="court" style="display:{{sjDisplay}};">
-      <div class="content">
-        <h2><a href='https://sajiktennis.kr/html/' target='_blank'>사직 테니스장</a></h2>
-        <div class = "row">
-          {{#each sajickResult}}
-          <div class="col_sj">
-            <h3>{{this.courtNum}}번 코트</h3>
-            {{#each this.startTimes}}
-              <li>{{this}}시</li>
-            {{/each}}
-          </div>
-          {{/each}}
-        </div>
-      </div>
-    </div>
-    <div id="gooduck" class="court" style="display:{{gdDisplay}};">
-      <div class="content">
-        <h2>구덕 테니스장</h2>
-        <div class = "row">
-         {{#each gooduckResult}}
-          <div class="col_gd">
-            <h3><a href='https://reserve.busan.go.kr/rent/view?resveGroupSn=475&progrmSn=289' target='_blank'>1번 코트</a></h3>
-            {{#each this.first}}
-              <li>{{this}}</li>
-            {{/each}}
-          </div>
-          <div class="col_gd">
-            <h3><a href='https://reserve.busan.go.kr/rent/view?resveGroupSn=475&progrmSn=290' target='_blank'>2번 코트</a></h3>
-            {{#each this.second}}
-              <li>{{this}}</li>
-            {{/each}}
-          </div>
-          <div class="col_gd">
-            <h3><a href='https://reserve.busan.go.kr/rent/view?resveGroupSn=475&progrmSn=291' target='_blank'>3번 코트</a></h3>
-            {{#each this.third}}
-              <li>{{this}}</li>
-            {{/each}}
-          </div>
-          {{/each}}
-        </div>             
-      </div>
-    </div>
-    <div id="spoIn" class="court" style="display:{{spInDisplay}};">
-      <div class="content">
-        <h2><a href='https://nrsv.spo1.or.kr/fmcs/42?center=SPOONE&part=11&place=' target='_blank'></a>스포원 테니스장 (실내)</a></h2>
-        <div class = "row">
-          {{#each spInResult}}
-          <div class="col_sp">
-            <h3>{{this.courtNum}}번 코트</h3>
-            {{#each this.startTimes}}
-              <li>{{this}}시</li>
-            {{/each}}
-          </div>
-          {{/each}}
-        </div>
-      </div>
-    </div>
-    <div id="spoOut" class="court" style="display:{{spOutDisplay}};">
-      <div class="content">
-        <h2><a href='https://nrsv.spo1.or.kr/fmcs/42?center=SPOONE&part=15&place=' target='_blank'>스포원 테니스장 (실외)</a></h2>
-        <div class = "row">
-          {{#each spOutResult}}
-          <div class="col_sp">
-            <h3>{{this.courtNum}}번 코트</h3>
-            {{#each this.startTimes}}
-              <li>{{this}}시</li>
-            {{/each}}
-          </div>
-          {{/each}}
-        </div>
-      </div>
     </div>
     <!-- JavaScript code to handle dropdown selection -->
     <script>
