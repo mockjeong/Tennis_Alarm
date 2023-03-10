@@ -50,6 +50,10 @@
     </div>
     <!-- JavaScript code to handle dropdown selection -->
     <script>
+      window.onunload = function() {
+        // Hide the loader when the user navigates away from the page
+        document.querySelector('.loader-wrapper').style.display = 'none';
+      };
       const courtSelector = document.getElementById('court-select');
       const courts = document.querySelectorAll(".court");
 
