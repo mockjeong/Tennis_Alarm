@@ -43,8 +43,6 @@ router.use('/', async (req, res) =>{
   // Check if there were any rejected promises
   if (rejectedResults.length > 0) {
     const errorMessages = rejectedResults.map(result => result.reason.message);
-    //console.log(errorMessages);
-    //  req.flash('error', errorMessages.join('\n'));
     console.log('ClickCnt : ' , clickCnt, 'ErrorCnt : ' , ErrCnt);
     req.flash('error', '오류가 발생했습니다. 다시 조회 해주시기 바랍니다.');
     res.redirect('/');
