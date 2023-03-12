@@ -13,10 +13,10 @@
       gtag('js', new Date());
 
       gtag('config', 'G-M0JCSS8NPL');
+    </script>
     {{!-- Addsense code --}}
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8351207551731788"
      crossorigin="anonymous"></script>
-    </script>
   </head>
   <body>
     {{!-- <h1><a href="/"><img src="/img/logo.svg"> Court Scanner</a></h1> --}}
@@ -103,6 +103,40 @@
           </div>
           {{/each}}
         </div>
+      </div>
+    </div>
+    <div id="gangseo" class="court" style="display:{{gsDisplay}};">
+      <div class="content">
+        <h2>강서 테니스장</h2>
+        <div class="scanedDate">{{scanedMonth}}월 {{scanedDay}}일 조회 결과</div>
+        <div class = "row">
+         {{#each gangseoResult}}
+          <div class="col_gd">
+            <h3><a href='https://reserve.busan.go.kr/rent/view?resveGroupSn=498&progrmSn=342' target='_blank'style="text-decoration:underline">1번 코트</a></h3>
+            {{#each this.first}}
+              <li>{{this}}</li>
+            {{/each}}
+          </div>
+          <div class="col_gd">
+            <h3><a href='https://reserve.busan.go.kr/rent/view?resveGroupSn=498&progrmSn=343' target='_blank'style="text-decoration:underline">2번 코트</a></h3>
+            {{#each this.second}}
+              <li>{{this}}</li>
+            {{/each}}
+          </div>
+          <div class="col_gd">
+            <h3><a href='https://reserve.busan.go.kr/rent/view?resveGroupSn=498&progrmSn=344' target='_blank'style="text-decoration:underline">3번 코트</a></h3>
+            {{#each this.third}}
+              <li>{{this}}</li>
+            {{/each}}
+          </div>
+          <div class="col_gd">
+            <h3><a href='https://reserve.busan.go.kr/rent/view?resveGroupSn=498&progrmSn=345' target='_blank'style="text-decoration:underline">4번 코트</a></h3>
+            {{#each this.fourth}}
+              <li>{{this}}</li>
+            {{/each}}
+          </div>
+          {{/each}}
+        </div>             
       </div>
     </div>
   </body>

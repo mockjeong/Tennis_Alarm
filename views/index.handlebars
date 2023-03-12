@@ -35,6 +35,7 @@
             <option value="gooduck">구덕 테니스장</option>
             <option value="spoIn">스포원 테니스장 (실내)</option>
             <option value="spoOut">스포원 테니스장 (실외)</option>
+            <option value="gangseo">강서 테니스장</option>
           </select>
         </div>
         <div class="dateSelect" style="display:none;margin-bottom:10px" >        
@@ -131,6 +132,17 @@
             var now = moment().utcOffset(9);
             var minDate = now;
             var maxDate = now.clone().add(8, 'days');
+            document.querySelector(".dateSelect").style.display = 'block';
+            break;
+          case 'gangseo':
+            var now = moment().utcOffset(9);
+            var minDate = now.clone().add(1, 'days');
+            var maxDate = now.clone().add(14, 'days');
+            // Add the disableDayFn function to the Pikaday instance (Monday is disabled.)
+            picker._o.disableDayFn = function(date) {
+              var day = date.getDay();
+              return day === 1;
+            };
             document.querySelector(".dateSelect").style.display = 'block';
             break;
           default :

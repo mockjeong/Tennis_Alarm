@@ -3,11 +3,12 @@ const router = express.Router()
 const {sjCheck} = require('../reserves/SJ_PP.js');
 const {gdCheck} = require('../reserves/GD_P.js');
 const {spoInCheck, spoOutCheck} = require('../reserves/SP_revised.js');
+const {gsCheck} = require('../reserves/Gangseo.js');
 var fs = require('fs');
 const handlebars = require('handlebars');
 const moment = require('moment');
-var ErrCnt=[0,0,0,0];
-var clickCnt=[0,0,0,0];
+var ErrCnt=[0,0,0,0,0];
+var clickCnt=[0,0,0,0,0];
 
 router.use('/', async (req, res) =>{
   
@@ -18,8 +19,8 @@ router.use('/', async (req, res) =>{
   var targetMonth = momentDate.month() + 1;
   var targetDay =  momentDate.date();
 
-  const display = ['none', 'none', 'none', 'none'];
-  const courtIndex = ['sajick', 'gooduck', 'spoIn', 'spoOut'].indexOf(post.court);
+  const display = ['none', 'none', 'none', 'none', 'none'];
+  const courtIndex = ['sajick', 'gooduck', 'spoIn', 'spoOut', 'gangseo'].indexOf(post.court);
   if (courtIndex >= 0) {
     display[courtIndex] = 'block';
     clickCnt[courtIndex]++;
@@ -30,7 +31,8 @@ router.use('/', async (req, res) =>{
     post.court==='sajick' ? sjCheck(targetMonth, targetDay).catch(()=>{ErrCnt[0]++;throw new Error();}) : [],
     post.court==='gooduck' ? gdCheck(targetMonth, targetDay).catch(()=>{ErrCnt[1]++;throw new Error();}) : [,,],
     post.court==='spoIn' ? spoInCheck(targetMonth, targetDay).catch(()=>{ErrCnt[2]++;throw new Error();}) : [],
-    post.court==='spoOut' ? spoOutCheck(targetMonth, targetDay).catch(()=>{ErrCnt[3]++;throw new Error();}) : []
+    post.court==='spoOut' ? spoOutCheck(targetMonth, targetDay).catch(()=>{ErrCnt[3]++;throw new Error();}) : [],
+    post.court==='gangseo' ? gsCheck(targetMonth, targetDay).catch(()=>{ErrCnt[4]++;throw new Error();}) : [,,,],
   ];
 
   // Wait for all promises to either fulfill or reject
@@ -50,7 +52,7 @@ router.use('/', async (req, res) =>{
   }
 
   // Get the values from the fulfilled promises
-  const [sajickList, gooduckList, spoInList, spoOutList] = fulfilledResults.map(result => result.value);
+  const [sajickList, gooduckList, spoInList, spoOutList, gangseoList] = fulfilledResults.map(result => result.value);
 
   console.log('ClickCnt : ' , clickCnt, 'ErrorCnt : ' , ErrCnt);
 
@@ -62,10 +64,12 @@ router.use('/', async (req, res) =>{
                         gooduckResult: gooduckList, 
                         spInResult:spoInList,
                         spOutResult:spoOutList,
+                        gangseoResult: gangseoList, 
                         sjDisplay : display[0],
                         gdDisplay : display[1],
                         spInDisplay : display[2],   
-                        spOutDisplay : display[3],   
+                        spOutDisplay : display[3],
+                        gsDisplay : display[4],
                       });
   res.send(html);
 })
